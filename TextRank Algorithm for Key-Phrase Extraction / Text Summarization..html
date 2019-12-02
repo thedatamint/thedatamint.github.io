@@ -1,0 +1,2214 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>TextRank Algorithm for Key Phrase Extraction / Text Summarization. - thedatamint</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/TextRank Algorithm for Key-Phrase Extraction / Text Summarization..html">
+
+        <meta name="author" content="Pritish Sunil Jadhav" />
+        <meta name="keywords" content="Python,Pagerank,NLP,NLTK" />
+        <meta name="description" content="Extracting Key Phrases from Textual data is a problem faced across domains. In this Article, we shall explore an approach which leverages Google&#39;s pagerank algorithm to solve the problem. Basic knowledge of Linear Algebra, Markov Chains and Text Parsing would help in comprehending the content." />
+
+        <meta property="og:site_name" content="thedatamint" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="TextRank Algorithm for Key Phrase Extraction / Text Summarization."/>
+        <meta property="og:url" content="/TextRank Algorithm for Key-Phrase Extraction / Text Summarization..html"/>
+        <meta property="og:description" content="Extracting Key Phrases from Textual data is a problem faced across domains. In this Article, we shall explore an approach which leverages Google&#39;s pagerank algorithm to solve the problem. Basic knowledge of Linear Algebra, Markov Chains and Text Parsing would help in comprehending the content."/>
+        <meta property="article:published_time" content="2019-05-24" />
+            <meta property="article:section" content="Data Science" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="Pagerank" />
+            <meta property="article:tag" content="NLP" />
+            <meta property="article:tag" content="NLTK" />
+            <meta property="article:author" content="Pritish Sunil Jadhav" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.paper.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="thedatamint ATOM Feed"/>
+
+        <link href="/feeds/%s.atom.xml" type="application/atom+xml" rel="alternate"
+              title="thedatamint Data Science ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+thedatamint            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/data-science.html">Data science</a>
+                        </li>
+                        <li >
+                            <a href="/category/deep-learning.html">Deep learning</a>
+                        </li>
+                        <li >
+                            <a href="/category/linear-algebra.html">Linear algebra</a>
+                        </li>
+                        <li >
+                            <a href="/category/machine-learning.html">Machine learning</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/TextRank Algorithm for Key-Phrase Extraction / Text Summarization..html"
+                       rel="bookmark"
+                       title="Permalink to TextRank Algorithm for Key Phrase Extraction / Text Summarization.">
+                        TextRank Algorithm for Key Phrase Extraction / Text Summarization.
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2019-05-24T18:00:00+05:30"> Fri 24 May 2019</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/python.html">Python</a>
+        /
+	<a href="/tag/pagerank.html">Pagerank</a>
+        /
+	<a href="/tag/nlp.html">NLP</a>
+        /
+	<a href="/tag/nltk.html">NLTK</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
+.ansibold {
+  font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
+  border-color: #ababab;
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
+}
+@media print {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
+  border: 0;
+  border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+div.output_area .mglyph > img {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 1px 0 1px 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+
+
+
+.rendered_html pre,
+
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] 
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Problem-Statement">Problem Statement<a class="anchor-link" href="#Problem-Statement">&#182;</a></h3><p>Suppose you are working for a Newspaper Publisher and you are assigned a task of tagging each of the articles <b>using text mentioned in the articles</b>. You donwload the corpus of data and realise that there are more than 1 Million articles to be tagged.</p>
+<p>You have two options to choose from -</p>
+<ol>
+<li>Manually tagging articles</li>
+<li>Designing an Automated System for phrase extraction.</li>
+</ol>
+<p>An attempt to manually accomplish this task has following disadvantages -</p>
+<ol>
+<li>Manual processes are subjective with hardly any quality control. </li>
+<li>The sunk cost (money plus time) associated with the manual excercise is huge. </li>
+<li>A manual extraction model is not scalable. With time constraints, the only option available will to add more resources which will diminish the returns on the project. </li>
+<li>The results will not be reproducible.</li>
+</ol>
+<p>Its evident that manual process has a number of disadvantages. <br>
+<img src="./../../../images/key_phrase_extraction/frustrated.png"><br></p>
+<p><strong>This leaves us with option 2 of 'Designing an Automated System for phrase extraction'.</strong></p>
+<p><b> How can we automate the process?</b></p>
+<p>To accomplish the task we need an Extractive NLP (Natural Language Processing) model which can do the task for us at scale. TextRank is inspired from Google's PageRank algorithm which leverages Markov chains for ranking web pages. The Pagerank algorithm is named after Google cofounder - Larry Page. The Pagerank Algorithm outputs the probability distribution used to represent the likelihood that a person clicking randomly on links will arrive on a particular page.</p>
+<p><strong>In this article, we shall try to extend pagerank algorithm to textual data and implement it from scratch using python.</strong></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Pre-requisites--">Pre-requisites -<a class="anchor-link" href="#Pre-requisites--">&#182;</a></h3><p>Before we jump into the task at hand, please refer to the following articles to brush up the theory on basic building blocks of a pagerank algorithm.</p>
+<ol>
+<li><a href="https://www.visiondummy.com/2014/03/eigenvalues-eigenvectors/">Eigen Values and Eigen Vectors.</a></li>
+<li><a href="https://www.analyticsvidhya.com/blog/2014/07/markov-chain-simplified/">Markov Chains and Steady State probabilities.</a></li>
+<li><a href="https://www.uncg.edu/mat/faculty/d_yasaki/publications/machado-google-pagerank-linear-algebra-project.pdf">Relation between Eigen Vectors and Pagerank Algorithm.</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data---">Data  -<a class="anchor-link" href="#Data---">&#182;</a></h3><p>We shall be using "all-the-news" data published on <a href="https://www.kaggle.com/snapcrack/all-the-news">kaggle</a></p>
+<p>The Description of dataset is as follows -</p>
+<ol>
+<li>unnamed - index column</li>
+<li>id - Database ID</li>
+<li>title - Article title</li>
+<li>publication - Publication name</li>
+<li>author - Author name</li>
+<li>date - Date of publication</li>
+<li>year - Year of publication</li>
+<li>month - Month of publication</li>
+<li>url - URL for article (not available for all articles)</li>
+<li>content - Article content</li>
+</ol>
+<h4 id="Lets-Start-by-importing-python-libraries-that-we-will-be-needing-throughout-the-process.">Lets Start by importing python libraries that we will be needing throughout the process.<a class="anchor-link" href="#Lets-Start-by-importing-python-libraries-that-we-will-be-needing-throughout-the-process.">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">### Import python libraries </span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+
+<span class="kn">import</span> <span class="nn">networkx</span>
+
+<span class="kn">import</span> <span class="nn">nltk</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="kn">import</span> <span class="n">sent_tokenize</span><span class="p">,</span> <span class="n">word_tokenize</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+
+<span class="kn">from</span> <span class="nn">IPython.core.interactiveshell</span> <span class="kn">import</span> <span class="n">InteractiveShell</span>
+<span class="n">InteractiveShell</span><span class="o">.</span><span class="n">ast_node_interactivity</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span>
+
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s1">&#39;&lt;style&gt;.prompt{width: 0px; min-width: 0px; visibility: collapse}&lt;/style&gt;&#39;</span><span class="p">))</span>
+<span class="n">display</span><span class="p">(</span><span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.container { width:100% !important; }&lt;/style&gt;&quot;</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>.prompt{width: 0px; min-width: 0px; visibility: collapse}</style>
+</div>
+
+</div>
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<style>.container { width:100% !important; }</style>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;./data/news_articles/all-the-news/articles1.csv&#39;</span><span class="p">,</span> <span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> 
+                  <span class="n">dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="nb">unicode</span><span class="p">})</span>
+<span class="n">display</span><span class="p">(</span><span class="n">raw_data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>id</th>
+      <th>title</th>
+      <th>publication</th>
+      <th>author</th>
+      <th>date</th>
+      <th>year</th>
+      <th>month</th>
+      <th>url</th>
+      <th>content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>17283</td>
+      <td>House Republicans Fret About Winning Their Hea...</td>
+      <td>New York Times</td>
+      <td>Carl Hulse</td>
+      <td>2016-12-31</td>
+      <td>2016</td>
+      <td>12</td>
+      <td>NaN</td>
+      <td>WASHINGTON  —   Congressional Republicans have...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>17284</td>
+      <td>Rift Between Officers and Residents as Killing...</td>
+      <td>New York Times</td>
+      <td>Benjamin Mueller and Al Baker</td>
+      <td>2017-06-19</td>
+      <td>2017</td>
+      <td>6</td>
+      <td>NaN</td>
+      <td>After the bullet shells get counted, the blood...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>17285</td>
+      <td>Tyrus Wong, ‘Bambi’ Artist Thwarted by Racial ...</td>
+      <td>New York Times</td>
+      <td>Margalit Fox</td>
+      <td>2017-01-06</td>
+      <td>2017</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>When Walt Disney’s “Bambi” opened in 1942, cri...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>17286</td>
+      <td>Among Deaths in 2016, a Heavy Toll in Pop Musi...</td>
+      <td>New York Times</td>
+      <td>William McDonald</td>
+      <td>2017-04-10</td>
+      <td>2017</td>
+      <td>4</td>
+      <td>NaN</td>
+      <td>Death may be the great equalizer, but it isn’t...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>17287</td>
+      <td>Kim Jong-un Says North Korea Is Preparing to T...</td>
+      <td>New York Times</td>
+      <td>Choe Sang-Hun</td>
+      <td>2017-01-02</td>
+      <td>2017</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>SEOUL, South Korea  —   North Korea’s leader, ...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="For-the-sake-of-convenience,-we-shall-randomly-sample-10-articles-from-the-corpus.">For the sake of convenience, we shall randomly sample 10 articles from the corpus.<a class="anchor-link" href="#For-the-sake-of-convenience,-we-shall-randomly-sample-10-articles-from-the-corpus.">&#182;</a></h4><p>Typically, using bigger data would help in estimating accurate rank scores. But this article is for demonstration purposes only. Since article categories are missing from the original data, one can sample articles and train a pagerank network in a better way using unsupervised clustering algorithm. A clustering would ensure that the articles in each cluster are coherent resulting in a more robust 'proof of concept'.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">raw_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Before-we-dig-into-the-implementation-aspect,-lets-have-a-receipe-/-pseudo-code-documented-which-will-help-us-track-our-progress--">Before we dig into the implementation aspect, lets have a receipe / pseudo code documented which will help us track our progress -<a class="anchor-link" href="#Before-we-dig-into-the-implementation-aspect,-lets-have-a-receipe-/-pseudo-code-documented-which-will-help-us-track-our-progress--">&#182;</a></h3><p><u><b>Step 0</b></u> - <b>Load data</b> (Duh !!!)</p>
+<p><u><b>Step 1</b></u> - <b>Inspect and clean raw data.</b> A free flowing textual data is always subject to noise which can affect the model training process. Hence it is imperative to perform pre-processing to ensure robust fetaure extraction.  Please note that the cleaning techinques can be modified and made more elaborate depending on the quality of data.</p>
+<p><u><b>Step 2</b></u> - <b>Candidate Key-phrase Extraction.</b> For the sake of convenience, we shall use a simple regex chunking technique to extract potential candidate phrases which will then be ranked using textrank algorithm. Please refer to <a href="http://bdewilde.github.io/blog/2014/09/23/intro-to-automatic-keyphrase-extraction/">this</a> for an overview of phrase extraction. The article provides and overview of unsupervised as well as supervised techniques that can be used to extract and rank phrases.</p>
+<p><u><b>Step 3</b></u> - <b>Node Extraction</b>. This is an important step in building a textrank model. Instead of including all the tokens of the cleaned data, we shall ensure that only valid and useful tokens are added as nodes.</p>
+<p><u><b>Step 4</b></u> - <b>Extra Bigrams and build a networkx graph</b>. Using the bigrams from cleaned text and tokens from step 3 build a graph using networkx. One can explore the other types of graphs supported by networkx using the official <a href="https://networkx.github.io/documentation/stable/tutorial.html">documentation</a>.</p>
+<p><u><b>Step 5</b></u> - <b>Train the textrank model.</b> Training a textrank/pagerank model is an iterative process which estimates the steady state probabilities. These steady state probabilities for each node reflect the importance of that particular token in the context of the corpus.</p>
+<p><u><b>Step 6</b></u> - <b>Aggregate scores for potential candidates from step 2.</b>. In this article, we have taken a simple sum of all the token on candidates phrases which are ranked by the textrank algorithm. This technique has an obvious disadvantage that longer phrases will come out are winners which may not be ideal for certain applications.</p>
+<p><u><b>Step 7</b></u> - <b>Scoop out the Creamy layer</b>. This step is optional and subject to domain of application.</p>
+<p><u><b>Step 8</b></u> - <b>Reverse map the shortlisted keyphrase to original article</b></p>
+<p><u><b>Step 9</b></u> - <b>Inspect results.</b></p>
+<h4 id="Lets-start-with-Step-1-of-basic-text-pre-processing.-We-shall-clean-the-contents-of-new-articles-by--">Lets start with Step 1 of basic text pre-processing. We shall clean the contents of new articles by -<a class="anchor-link" href="#Lets-start-with-Step-1-of-basic-text-pre-processing.-We-shall-clean-the-contents-of-new-articles-by--">&#182;</a></h4><ol>
+<li>Removing punctuations except for fullstop. </li>
+<li>Convert sentences to lower case.</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">punctuations</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
+<span class="n">punctuations_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">),</span> <span class="bp">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">punctuations</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">clean_text</span><span class="p">(</span><span class="n">raw_text</span><span class="p">):</span>
+    <span class="n">sentences</span> <span class="o">=</span> <span class="n">sent_tokenize</span><span class="p">(</span><span class="n">raw_text</span><span class="p">)</span>
+    
+    <span class="n">punctuations_free_sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">raw_string</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+        <span class="n">punctuations_map</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="k">for</span> <span class="n">raw_string</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+    <span class="n">concatenated_sentences</span> <span class="o">=</span> <span class="s2">&quot;. &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">punctuations_free_sentences</span><span class="p">)</span>
+    <span class="n">case_sensitive_text</span> <span class="o">=</span> <span class="n">concatenated_sentences</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">case_sensitive_text</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;cleaned_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">clean_text</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-2---Potential-Candidate-Extraction.">Step 2 - Potential Candidate Extraction.<a class="anchor-link" href="#Step-2---Potential-Candidate-Extraction.">&#182;</a></h2><p>Next, we shall extract candidate phrases using regex chunker. The regex chunker is designed to extract noun phrases from a corpus of text.</p>
+<p>For more details on how to design regex chunker, please refer following resources -</p>
+<ol>
+<li><a href="https://www.rexegg.com/regex-quickstart.html">Regex Cheatsheet</a> </li>
+<li><a href="https://www.nltk.org/book/ch07.html">NLTK chunking</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">get_chunks</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">chunker</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
+
+    <span class="n">tagged_sents</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag_sents</span><span class="p">(</span>
+        <span class="n">word_tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sent_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+    <span class="n">all_chunks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
+            <span class="n">nltk</span><span class="o">.</span><span class="n">chunk</span><span class="o">.</span><span class="n">tree2conlltags</span><span class="p">(</span>
+                <span class="n">chunker</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">tagged_sent</span><span class="p">))</span> <span class="k">for</span> <span class="n">tagged_sent</span> <span class="ow">in</span> <span class="n">tagged_sents</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">all_chunks</span>
+
+<span class="k">def</span> <span class="nf">mine_potential_phrases</span><span class="p">(</span>
+        <span class="n">text</span><span class="p">,</span>
+        <span class="n">grammar</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;KT: {(&lt;JJ&gt;* &lt;NN.*&gt;+ &lt;IN&gt;)? &lt;JJ&gt;* &lt;NN.*&gt;+}&#39;</span><span class="p">,</span>
+        <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
+
+    <span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))</span>
+    <span class="n">chunker</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">chunk</span><span class="o">.</span><span class="n">regexp</span><span class="o">.</span><span class="n">RegexpParser</span><span class="p">(</span><span class="n">grammar</span><span class="p">)</span>
+
+    <span class="n">all_chunks</span> <span class="o">=</span> <span class="n">get_chunks</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">chunker</span><span class="p">,</span> <span class="n">lang</span><span class="p">)</span>
+    <span class="c1"># join constituent chunk words into a single chunked phrase</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">word</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span>
+            <span class="n">pos</span><span class="p">,</span>
+            <span class="n">chunk</span> <span class="ow">in</span> <span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
+            <span class="n">all_chunks</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">word_pos_chunk</span><span class="p">:</span> <span class="n">word_pos_chunk</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;O&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">key</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">cand</span> <span class="k">for</span> <span class="n">cand</span> <span class="ow">in</span> <span class="n">candidates</span> <span class="k">if</span> <span class="n">cand</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="n">char</span> <span class="ow">in</span> <span class="n">punctuations</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">cand</span><span class="p">)]</span>
+
+<span class="k">def</span> <span class="nf">build_candidate_phrases</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">col_name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
+    
+    <span class="n">unique_candidate_chunks</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">potential_chunks</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mine_potential_phrases</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">candidate_list</span> <span class="ow">in</span> <span class="n">potential_chunks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">single_candidate</span> <span class="ow">in</span> <span class="n">candidate_list</span><span class="p">:</span>
+            <span class="n">unique_candidate_chunks</span><span class="p">[</span><span class="n">single_candidate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">unique_candidate_chunks</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">unique_candidate_phrases</span> <span class="o">=</span> <span class="n">build_candidate_phrases</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;cleaned_text&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-3---Node-Extraction--">Step 3 - Node Extraction -<a class="anchor-link" href="#Step-3---Node-Extraction--">&#182;</a></h2><p>In order to build a textrank graph, we need to mine potential nodes and train to estimate the steady state probabilities.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">mine_node_candidates</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span> <span class="n">valid_pos_tags</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span>
+        <span class="p">[</span><span class="s1">&#39;JJ&#39;</span><span class="p">,</span> <span class="s1">&#39;JJR&#39;</span><span class="p">,</span> <span class="s1">&#39;JJS&#39;</span><span class="p">,</span> <span class="s1">&#39;NN&#39;</span><span class="p">,</span> <span class="s1">&#39;NNP&#39;</span><span class="p">,</span> <span class="s1">&#39;NNS&#39;</span><span class="p">,</span> <span class="s1">&#39;NNPS&#39;</span><span class="p">])):</span>
+    <span class="n">puncts_trans</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">stop_words</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">corpus</span><span class="o">.</span><span class="n">stopwords</span><span class="o">.</span><span class="n">words</span><span class="p">(</span><span class="s1">&#39;english&#39;</span><span class="p">))</span>
+
+    <span class="n">tagged_words</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">nltk</span><span class="o">.</span><span class="n">pos_tag_sents</span><span class="p">(</span>
+        <span class="n">word_tokenize</span><span class="p">(</span><span class="n">sent</span><span class="p">)</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">nltk</span><span class="o">.</span><span class="n">sent_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)))</span>
+
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">word</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span>
+            <span class="n">puncts_trans</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">tagged_words</span> <span class="k">if</span> <span class="p">(</span>
+            <span class="n">tag</span> <span class="ow">in</span> <span class="n">valid_pos_tags</span> <span class="ow">and</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stop_words</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span>
+            <span class="n">char</span> <span class="ow">in</span> <span class="n">punctuations</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">candidates</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">build_candidate_nodes</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
+    
+    <span class="n">unique_candidate_nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">potential_nodes</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mine_node_candidates</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">candidate_list</span> <span class="ow">in</span> <span class="n">potential_nodes</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">single_candidate</span> <span class="ow">in</span> <span class="n">candidate_list</span><span class="p">:</span>
+            <span class="n">unique_candidate_nodes</span><span class="p">[</span><span class="n">single_candidate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">unique_candidate_nodes</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">node_candidates</span> <span class="o">=</span> <span class="n">build_candidate_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;cleaned_text&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-4---Generate-N-grams-and-build-a-networkx-graph">Step 4 - Generate N-grams and build a networkx graph<a class="anchor-link" href="#Step-4---Generate-N-grams-and-build-a-networkx-graph">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">generate_n_grams</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">):</span>
+    
+    <span class="n">unique_ngrams</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">cand_text</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">col_name</span><span class="p">]:</span>
+        <span class="n">potential_ngrams</span> <span class="o">=</span> <span class="n">nltk</span><span class="o">.</span><span class="n">bigrams</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">cand_text</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">single_ngram</span> <span class="ow">in</span> <span class="n">potential_ngrams</span><span class="p">:</span>
+            <span class="n">unique_ngrams</span><span class="p">[</span><span class="n">single_ngram</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">unique_ngrams</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">n_grams</span> <span class="o">=</span> <span class="n">generate_n_grams</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;cleaned_text&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">construct_textrank_graph</span><span class="p">(</span><span class="n">bigram_candidates</span><span class="p">,</span> <span class="n">candidate_words</span><span class="p">):</span>
+    <span class="n">textrank_graph</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">()</span>
+    <span class="n">textrank_graph</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">candidate_words</span><span class="p">)</span>
+    <span class="c1"># sequence graph</span>
+    <span class="k">for</span> <span class="n">ind_bigram</span> <span class="ow">in</span> <span class="n">bigram_candidates</span><span class="p">:</span>
+        <span class="n">w1</span><span class="p">,</span> <span class="n">w2</span> <span class="o">=</span> <span class="n">ind_bigram</span>
+        <span class="k">if</span> <span class="n">w1</span> <span class="ow">in</span> <span class="n">candidate_words</span> <span class="ow">and</span> <span class="n">w2</span> <span class="ow">in</span> <span class="n">candidate_words</span><span class="p">:</span>
+            <span class="n">textrank_graph</span><span class="o">.</span><span class="n">add_edges_from</span><span class="p">([(</span><span class="n">w1</span><span class="p">,</span> <span class="n">w2</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">textrank_graph</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">textrank_graph</span> <span class="o">=</span> <span class="n">construct_textrank_graph</span><span class="p">(</span><span class="n">n_grams</span><span class="p">,</span> <span class="n">node_candidates</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-5---Train-networkX-model.">Step 5 - Train networkX model.<a class="anchor-link" href="#Step-5---Train-networkX-model.">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">text_rank</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">pagerank</span><span class="p">(</span><span class="n">textrank_graph</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-6---Aggregate-Scores-for-each-potential-candidate--">Step 6 - Aggregate Scores for each potential candidate -<a class="anchor-link" href="#Step-6---Aggregate-Scores-for-each-potential-candidate--">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">get_smart_dict</span><span class="p">(</span><span class="n">text_rank_model</span><span class="p">):</span>
+	<span class="n">word_ranks</span> <span class="o">=</span> <span class="p">{</span><span class="n">word_rank</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">word_rank</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">word_rank</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span>
+		<span class="n">text_rank_model</span><span class="o">.</span><span class="n">iteritems</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)}</span>
+	<span class="n">keywords</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+		<span class="n">word_ranks</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+		<span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+		<span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+	<span class="n">scored_nodes_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+		<span class="n">keywords</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+			<span class="s1">&#39;smart_token&#39;</span><span class="p">,</span> <span class="s1">&#39;smart_token_score&#39;</span><span class="p">])</span>
+	<span class="n">filtered_nodes_df</span> <span class="o">=</span> <span class="n">scored_nodes_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">scored_nodes_df</span><span class="p">[</span><span class="s1">&#39;smart_token_score&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span>
+		<span class="n">scored_nodes_df</span><span class="p">[</span><span class="s1">&#39;smart_token_score&#39;</span><span class="p">],</span> <span class="mi">25</span><span class="p">)]</span>
+	<span class="n">smart_dict</span> <span class="o">=</span> <span class="n">filtered_nodes_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
+		<span class="s1">&#39;smart_token&#39;</span><span class="p">)[</span><span class="s1">&#39;smart_token_score&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">smart_dict</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">smart_dict</span> <span class="o">=</span> <span class="n">get_smart_dict</span><span class="p">(</span><span class="n">text_rank</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">compute_aggregated_scores</span><span class="p">(</span><span class="n">scored_smart_phrases</span><span class="p">,</span> <span class="n">node_scores</span><span class="p">):</span>
+	<span class="n">scored_smart_tag_candidates</span> <span class="o">=</span> <span class="p">{}</span>
+	<span class="n">unique_scored_smart_token_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">node_scores</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+	<span class="k">for</span> <span class="n">smart_tag_candidate</span> <span class="ow">in</span> <span class="n">scored_smart_phrases</span><span class="p">:</span>
+		<span class="n">smart_tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">smart_tag_candidate</span><span class="p">)</span>
+		
+		<span class="n">intersected_tokens</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">smart_tokens</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">unique_scored_smart_token_keys</span><span class="p">)</span>
+		<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersected_tokens</span><span class="p">)</span> <span class="o">&gt;=</span><span class="mi">2</span><span class="p">:</span>
+			<span class="n">selected_scores</span> <span class="o">=</span> <span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="o">*</span><span class="n">intersected_tokens</span><span class="p">)(</span><span class="n">node_scores</span><span class="p">)</span>
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersected_tokens</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+				<span class="n">scores</span> <span class="o">=</span> <span class="n">selected_scores</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">selected_scores</span><span class="p">))</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="n">scores</span> <span class="o">=</span> <span class="mi">0</span>
+		
+		<span class="n">scored_smart_tag_candidates</span><span class="p">[</span><span class="n">smart_tag_candidate</span><span class="p">]</span> <span class="o">=</span> <span class="n">scores</span>
+	<span class="k">return</span> <span class="n">scored_smart_tag_candidates</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">scored_node_candidates</span> <span class="o">=</span> <span class="n">compute_aggregated_scores</span><span class="p">(</span><span class="n">unique_candidate_phrases</span><span class="p">,</span> <span class="n">smart_dict</span><span class="p">)</span>
+<span class="n">sorted_keywords</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="nb">sorted</span><span class="p">(</span>
+        <span class="n">scored_node_candidates</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span>
+        <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+        <span class="s1">&#39;key_phrase&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;score&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">get_phrase_length</span><span class="p">(</span><span class="n">keyphrase_string</span><span class="p">):</span>
+	<span class="n">phrase_length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">keyphrase_string</span><span class="p">))</span>
+	<span class="k">return</span> <span class="n">phrase_length</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">sorted_keywords</span><span class="p">[</span><span class="s1">&#39;phrase_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_keywords</span><span class="p">[</span><span class="s1">&#39;key_phrase&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">get_phrase_length</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-7---Scoop-out-the-Creamy-Layer.">Step 7 - Scoop out the Creamy Layer.<a class="anchor-link" href="#Step-7---Scoop-out-the-Creamy-Layer.">&#182;</a></h2><p>Please note that this step is subject to the domain of application.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">creamy_layer_phrases</span> <span class="o">=</span> <span class="n">sorted_keywords</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">sorted_keywords</span><span class="p">[</span><span class="s1">&#39;phrase_length&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+                                            <span class="o">&amp;</span> <span class="p">(</span><span class="n">sorted_keywords</span><span class="p">[</span><span class="s1">&#39;phrase_length&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span>
+                                          <span class="o">&amp;</span> <span class="p">(</span><span class="n">sorted_keywords</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-8---Reverse-map-key-phrase-to-articles--">Step 8 - Reverse map key phrase to articles -<a class="anchor-link" href="#Step-8---Reverse-map-key-phrase-to-articles--">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="s1">&#39;key_phrases&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;{}&#39;</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="s1">&#39;(?=.*{})&#39;</span>
+
+<span class="k">for</span> <span class="n">individual_phrase</span><span class="p">,</span> <span class="n">smart_score</span> <span class="ow">in</span> <span class="n">creamy_layer_phrases</span><span class="p">[[</span><span class="s1">&#39;key_phrase&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+    <span class="n">smart_tokens</span> <span class="o">=</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">individual_phrase</span><span class="p">)</span>
+    <span class="n">match_pattern</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">smart_tokens</span><span class="p">))</span>
+    <span class="n">filtered_indices</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;cleaned_text&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">match_pattern</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filtered_indices</span><span class="p">):</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">filtered_indices</span><span class="p">,</span> <span class="s1">&#39;key_phrases&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">filtered_indices</span><span class="p">,</span> <span class="s1">&#39;key_phrases&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;||{0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">individual_phrase</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">continue</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Step-9---Inspect-sample-Results">Step 9 - Inspect sample Results<a class="anchor-link" href="#Step-9---Inspect-sample-Results">&#182;</a></h2><p>Inspecting results is an important step while developing algorithms and often under explored by ML/DS developers. Every domain of application has its own set of nuances which makes it <b>less probable</b> for any off-the-shelf algorithm to fit all the use-cases.</p>
+<p>It is very important to perform a critical analysis of results in order to make the algorithm more robust, accurate and scalable.</p>
+<p>Due to the scope of this article, I have already performed the necessary analysis and adjust some of the thresholds (hyper parameters) in above implementation to extract acceptable results.</p>
+<p>Lets check out the first article in our dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>WASHINGTON  —   Congressional Republicans have a new fear when it comes to their    health care lawsuit against the Obama administration: They might win. The incoming Trump administration could choose to no longer defend the executive branch against the suit, which challenges the administration’s authority to spend billions of dollars on health insurance subsidies for   and   Americans, handing House Republicans a big victory on    issues. But a sudden loss of the disputed subsidies could conceivably cause the health care program to implode, leaving millions of people without access to health insurance before Republicans have prepared a replacement. That could lead to chaos in the insurance market and spur a political backlash just as Republicans gain full control of the government. To stave off that outcome, Republicans could find themselves in the awkward position of appropriating huge sums to temporarily prop up the Obama health care law, angering conservative voters who have been demanding an end to the law for years. In another twist, Donald J. Trump’s administration, worried about preserving executive branch prerogatives, could choose to fight its Republican allies in the House on some central questions in the dispute. Eager to avoid an ugly political pileup, Republicans on Capitol Hill and the Trump transition team are gaming out how to handle the lawsuit, which, after the election, has been put in limbo until at least late February by the United States Court of Appeals for the District of Columbia Circuit. They are not yet ready to divulge their strategy. “Given that this pending litigation involves the Obama administration and Congress, it would be inappropriate to comment,” said Phillip J. Blando, a spokesman for the Trump transition effort. “Upon taking office, the Trump administration will evaluate this case and all related aspects of the Affordable Care Act. ” In a potentially   decision in 2015, Judge Rosemary M. Collyer ruled that House Republicans had the standing to sue the executive branch over a spending dispute and that the Obama administration had been distributing the health insurance subsidies, in violation of the Constitution, without approval from Congress. The Justice Department, confident that Judge Collyer’s decision would be reversed, quickly appealed, and the subsidies have remained in place during the appeal. In successfully seeking a temporary halt in the proceedings after Mr. Trump won, House Republicans last month told the court that they “and the  ’s transition team currently are discussing potential options for resolution of this matter, to take effect after the  ’s inauguration on Jan. 20, 2017. ” The suspension of the case, House lawyers said, will “provide the   and his future administration time to consider whether to continue prosecuting or to otherwise resolve this appeal. ” Republican leadership officials in the House acknowledge the possibility of “cascading effects” if the   payments, which have totaled an estimated $13 billion, are suddenly stopped. Insurers that receive the subsidies in exchange for paying    costs such as deductibles and   for eligible consumers could race to drop coverage since they would be losing money. Over all, the loss of the subsidies could destabilize the entire program and cause a lack of confidence that leads other insurers to seek a quick exit as well. Anticipating that the Trump administration might not be inclined to mount a vigorous fight against the House Republicans given the  ’s dim view of the health care law, a team of lawyers this month sought to intervene in the case on behalf of two participants in the health care program. In their request, the lawyers predicted that a deal between House Republicans and the new administration to dismiss or settle the case “will produce devastating consequences for the individuals who receive these reductions, as well as for the nation’s health insurance and health care systems generally. ” No matter what happens, House Republicans say, they want to prevail on two overarching concepts: the congressional power of the purse, and the right of Congress to sue the executive branch if it violates the Constitution regarding that spending power. House Republicans contend that Congress never appropriated the money for the subsidies, as required by the Constitution. In the suit, which was initially championed by John A. Boehner, the House speaker at the time, and later in House committee reports, Republicans asserted that the administration, desperate for the funding, had required the Treasury Department to provide it despite widespread internal skepticism that the spending was proper. The White House said that the spending was a permanent part of the law passed in 2010, and that no annual appropriation was required  —   even though the administration initially sought one. Just as important to House Republicans, Judge Collyer found that Congress had the standing to sue the White House on this issue  —   a ruling that many legal experts said was flawed  —   and they want that precedent to be set to restore congressional leverage over the executive branch. But on spending power and standing, the Trump administration may come under pressure from advocates of presidential authority to fight the House no matter their shared views on health care, since those precedents could have broad repercussions. It is a complicated set of dynamics illustrating how a quick legal victory for the House in the Trump era might come with costs that Republicans never anticipated when they took on the Obama White House.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Now-lets-inspect-the-key-phrases-extracted-from-the-above-article--">Now lets inspect the key phrases extracted from the above article -<a class="anchor-link" href="#Now-lets-inspect-the-key-phrases-extracted-from-the-above-article--">&#182;</a></h4><p>mr trump <br>
+proceedings after mr trump <br>
+election of mr trump <br>
+mr obama <br>
+house republicans last month <br>
+house committee reports republicans <br>
+deal between house republicans <br>
+new administration despite years <br>
+house republicans <br>
+obama white house <br>
+health insurance before republicans <br>
+administration desperate <br>
+american donald j trump <br>
+obama health care law <br>
+many people <br>
+case house lawyers <br>
+effects of people <br>
+health care program <br>
+future administration time <br>
+incoming trump administration <br>
+trump administration <br>
+last year <br>
+last half <br>
+trump era <br>
+trump transition effort <br>
+white house <br>
+trump transition team <br>
+obama administration <br>
+health care law <br>
+law for years <br>
+new administration <br>
+district of columbia circuit <br>
+health care lawsuit <br>
+health care systems <br>
+judge rosemary m collyer <br>
+house speaker <br>
+affordable care act <br>
+general public <br>
+american president <br>
+views on health care <br>
+full control <br>
+many legal experts <br>
+health insurance subsidies <br>
+donald j <br>
+united states laws <br>
+new congress <br>
+deal cut <br>
+american officials <br>
+team of lawyers <br>
+united states <br>
+executive branch prerogatives <br>
+new fear <br>
+widespread internal skepticism <br>
+quick legal victory <br>
+health insurance <br>
+annual appropriation <br>
+treasury department <br>
+insurance market <br>
+republican allies <br>
+east side <br>
+executive branch <br></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Concluding-Comments--">Concluding Comments -<a class="anchor-link" href="#Concluding-Comments--">&#182;</a></h2><ol>
+<li><p>As it can be seen from results, the extracted key phrases are actually quite accurate and does capture of the article. <br></p>
+</li>
+<li><p>Sure, there a few misses with phrases like "last year", "last half". Again extraction of such phrases is subjective and can be supressed by tweaking thresholds and hyper-parameters. For eg - I have extracted all the phrases with score &gt; 0. By going aggressive on this score, one can suppress false positive. <br></p>
+</li>
+<li><p>This is by no means the only solution out there for extractive text modelling. Infact, there is so much to play around with. Each of the step in pseudo code has been truncated / simplified to bring out the hero - Pagerank.<br></p>
+</li>
+</ol>
+<p><br>
+Finally, I hope this article helps in establishing the baseline and provides an inspiration for everyone who are trying solve the this problem in their respective domains.</p>
+<p><strong>Further Readings -</strong></p>
+<ol>
+<li><a href="http://tcci.ccf.org.cn/conference/2014/papers/195.pdf">Improved Automatic Keyword Extraction Based
+on TextRank Using Domain Knowledge</a></li>
+<li><a href="https://arxiv.org/pdf/1801.04470.pdf">Embed Rank</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+ 
+
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="#"><i class="fa fa-you-can-add-links-in-your-config-file-square fa-lg"></i> You can add links in your config file</a></li>
+    <li class="list-group-item"><a href="#"><i class="fa fa-another-social-link-square fa-lg"></i> Another social link</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="#" target="_blank">You can modify those links in your config file</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2019 thedatamint
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
