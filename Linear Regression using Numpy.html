@@ -1,108 +1,131 @@
-<!doctype html>
-<html lang="en-US">
 
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-    <title>thedatamint - </title>
-    <meta name="description" content="" />
-    <meta name="Author" content="Ken M. Lai(networktsukkomime.me)" />
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Linear regression using numpy</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="author" content="Pritish Jadhav, Mrunal Jadhav" />
+    <meta name="description" content="Linear Regression is one the most basic algorithm on ML. With the likes of sklearn providing an off the shelf implementation of Linear Regression, it is very difficult to gain an insight on what really happens under the hood. This tutorial is aimed at implementing Linear Regression from scratch in python using Numpy." />
+    <meta name="keywords" content="python, Linear Regression, Numpy">
+<!-- Facebook and Twitter integration -->
+<meta property="og:site_name" content="thedatamint"/>
+<meta property="og:title" content="Linear regression using numpy"/>
+<meta property="og:description" content="Linear Regression is one the most basic algorithm on ML. With the likes of sklearn providing an off the shelf implementation of Linear Regression, it is very difficult to gain an insight on what really happens under the hood. This tutorial is aimed at implementing Linear Regression from scratch in python using Numpy."/>
+<meta property="og:url" content="/Linear Regression using Numpy.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-06-08 18:00:00+05:30"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/pritish-jadhav-mrunal-jadhav.html">
+<meta property="article:section" content="Machine Learning"/>
+    <meta property="article:tag" content="python"/>
+    <meta property="article:tag" content="Linear Regression"/>
+    <meta property="article:tag" content="Numpy"/>
+    <meta property="og:image" content="/images/logo.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700" rel="stylesheet">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="/theme/css/animate.css">
+    <!-- Icomoon Icon Fonts-->
+    <link rel="stylesheet" href="/theme/css/icomoon.css">
+    <!-- Bootstrap  -->
+    <link rel="stylesheet" href="/theme/css/bootstrap.css">
+    <!-- Flexslider  -->
+    <link rel="stylesheet" href="/theme/css/flexslider.css">
+    <!-- Theme style  -->
+    <link rel="stylesheet" href="/theme/css/style.css">
+    <!-- Custom style  -->
+    <link rel="stylesheet" href="/theme/css/custom.css">
+    <!-- pygments code highlight -->
+    <link rel="stylesheet" href="/theme/css/pygments.css">
+    <!-- tipue search -->
+    <link rel="stylesheet" href="/theme/tipuesearch/css/tipuesearch.css">
+
+    <!-- Modernizr JS -->
+    <script src="/theme/js/modernizr-2.6.2.min.js"></script>
+    <!-- FOR IE9 below -->
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="http://stepofweb.gweb.io/.templates/IsisOne/HTML/assets/plugins/lt-ie9/html5.js"></script>
-    <script type="text/javascript" src="http://stepofweb.gweb.io/.templates/IsisOne/HTML/assets/plugins/lt-ie9/respond.min.js"></script>
-    <script type="text/javascript" src="http://stepofweb.gweb.io/.templates/IsisOne/HTML/assets/plugins/lt-ie9/excanvas.compiled.js"></script>
+    <script src="/theme/js/respond.min.js"></script>
     <![endif]-->
-
-    <!-- GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Dosis:300,400" rel="stylesheet" type="text/css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="thedatamint Atom">
 
 
-    <!-- CORE CSS FRAMEWORK -->
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
-    <!-- CSS TEMPLATE -->
-    <link href="/theme/css/reset.css" rel="stylesheet" type="text/css" />
-    <link href="/theme/css/framework.css" rel="stylesheet" type="text/css" />
-    <link href="/theme/css/typography.css" rel="stylesheet" type="text/css" />
-    <link href="/theme/css/layout.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <div id="fh5co-page">
+        <a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
+        <aside id="fh5co-aside" role="complementary" class="border js-fullheight">
 
-    <link href="/theme/css/blog.css" rel="stylesheet" type="text/css" />
+            <nav class="fh5co-main-menu" role="navigation">
+            </nav>
+            <div class="clearfix"></div>
+            <h1  id="fh5co-logo">
+                <a href="/index.html">
+                    <img src="/images/logo.png" />
+                </a>
+            </h1>
+            <nav class="fh5co-main-menu" role="navigation">
+<ul>
+    <!-- home link -->
+    <li><a href="/">Home</a></li>
 
-    <!-- ICONS -->
-        <link rel="shortcut icon" href="logo.png" type="image/x-icon" />
+    <!-- page links -->
 
-    <!-- mobile settings -->
-    <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=0" />
+    <!-- categories -->
+        <li><a href="/categories.html">Categories</a></li>
 
-    <!-- Morenizr -->
-    <script type="text/javascript" src="/theme/js/modernizr.min.js"></script>
+    <!-- tags -->
+        <li><a href="/tags.html">Tags</a></li>
 
-    <!-- google authorship -->
-</head>
-<body>
+    <!-- additional menu items from config -->
+        <!-- <li class="nav-title">Misc</li> -->
+            <li><a href="/archives.html">Archive</a></li>
+            <li><a href="/contact.html">Contact</a></li>
 
-<!-- Main Nav -->
-<header id="header" style="margin-top:0">
+</ul><ul><li><form id="searchform" action="/search.html">
+    <input id="tipue_search_input" data-siteurl="" type="text" size="60" class="form-control search-field" name="q">
 
-  <nav class="navbar navbar-inverse" role="navigation">
-    <div class="container">
+    <button type="submit" class="btn btn-primary search-submit"><i class="icon-search4"></i></button>
+</form></li></ul>
+            </nav>
 
-      <!-- Mobile Menu Button -->
-      <button id="mobileMenu" class="fa fa-bars" type="button" data-toggle="collapse" data-target=".navbar-collapse"></button>
+<ul id="social">
+            <li><a href="https://www.github.com/claudio-walser" alt="Github"><i class="icon-github"></i></a></li>
 
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <a class="navbar-brand scrollTo" href="#home">
-          <img src="https://elevateservices.com/wp-content/uploads/AdobeStock_208568531.jpeg" alt="" width="50" height="50" />
-          <span class="hidden-xs">thedatamint</span>
-        </a>
-      </div>
+            <li><a href="https://www.facebook.com" alt="Facebook"><i class="icon-facebook2"></i></a></li>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <li><a href="https://www.twitter.com" alt="Twitter"><i class="icon-twitter2"></i></a></li>
 
-        <!-- Fullscreen Button - Unavailable for IE -->
-        <a href="#" class="btn-fullscreen"><i class="fa fa-external-link"></i></a>
+            <li><a href="https://plus.google.com" alt="Google+"><i class="icon-google-plus2"></i></a></li>
 
-        <ul class="nav navbar-nav navbar-right">
-          <!-- If the user wants to make articles the home page then remove blog link, and make about and work links point to old home page. -->
-            <li><a href="/index.html#home">Home</a></li>
-            <li><a href="/index.html#about">About</a></li>
-            <li><a href="/blog.html">Blog</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Links <b class="caret"></b></a>
-              <ul class="dropdown-menu" style="background-color:#000">
-                <li style="background-color:#000"><a href="http://getpelican.com/" target="_blank">Pelican</a></li>
-                <li style="background-color:#000"><a href="http://python.org/" target="_blank">Python.org</a></li>
-                <li style="background-color:#000"><a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a></li>
-              </ul>
-            </li>
-        </ul>
-      </div>
-      <!-- /.navbar-collapse -->
+</ul>
+        </aside>
 
-    </div>
-  </nav>
-</header>
-<!-- /Main Nav -->  <section id="blog">
-    <article class="container">
+        <div id="fh5co-main">
 
-      <div class="row">
-        <div id="blog_main_area" class="left col-md-9">
-  <!-- article title -->
-  <header>
-      <h1>Linear regression using numpy</h1>
-    <small class="fsize13">
-            <a href="/category/machine-learning.html" rel="tag tooltip" class="label label-default light" data-placement="right" data-original-title="2 articles in this category"><i class="fa fa-dot-circle-o"></i> Machine Learning</a>
-      <a href="/Linear Regression using Numpy.html#disqus_thread" class="scrollTo label label-default light" data-disqus-identifier="Linear Regression using Numpy.html"><i class="fa fa-comment-o"></i> ?? Comments</a>
-      <span class="label label-default light">Fri 08 June 2018</span> 
-    </small>
-  </header>
+    <div class="fh5co-narrow-content article-content">
+        <h1 class="fh5co-heading-colored">Linear regression using numpy</h1>
 
-  <article class='content'>
-    <style type="text/css">/*!
+        <div>by
+                <a href="author/pritish-jadhav-mrunal-jadhav.html">Pritish Jadhav, Mrunal Jadhav</a> - Fri, 08 Jun 2018
+        </div>
+
+            <div><span>Tags: </span>
+                    <span><a href="/tag/python.html">#python</a> </span>
+                    <span><a href="/tag/linear-regression.html">#Linear Regression</a> </span>
+                    <span><a href="/tag/numpy.html">#Numpy</a> </span>
+            </div>
+
+        <div class="animate-box" data-animate-effect="fadeInLeft">
+            <p class="animate-box" data-animate-effect="fadeInLeft"><style type="text/css">/*!
 *
 * IPython notebook
 *
@@ -2253,239 +2276,52 @@ b has a shape of 1 rows and 1 columns
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-
-  </article>
-
-  <div class="divider"><!-- lines divider --></div>
-
-  <!-- SOCIAL -->
-<p class="socials">
-    <a href="http://www.facebook.com/sharer/sharer.php?u=/Linear Regression using Numpy.html" class="rounded-icon social fa fa-facebook" target="_blank" title="Share on Facebook"><!-- facebook --></a>
-    <a href="http://twitter.com/home?status=/Linear Regression using Numpy.html" class="rounded-icon social fa fa-twitter" target="_blank" title="Share on Twitter"><!-- twitter --></a>
-    <a href="https://plus.google.com/share?url=/Linear Regression using Numpy.html" class="rounded-icon social fa fa-google-plus" target="_blank" title="Share on Google+"><!-- google plus --></a>
-    <a href="http://pinterest.com/pin/create/link/?url==/Linear Regression using Numpy.html" class="rounded-icon social fa fa-pinterest"  target="_blank" title="Share on Pinterest"><!-- pinterest --></a>
-    <a href="http://www.linkedin.com/shareArticle?mini=true&url=/Linear Regression using Numpy.html&title=Linear regression using numpy&summary=&source=" class="rounded-icon social fa fa-linkedin" target="_blank" title="Share on Linkedin"><!-- linkedin --></a>
-</p>  
-
-  <!-- TAGS -->
-  <p class="fsize16"> Tags:
-        <a href="/tag/python.html" rel="tooltip" class="label label-default light" data-placement="right" data-original-title="10 articles with this tag"><i class="fa fa-tags"></i> python</a>
-        <a href="/tag/numpy.html" rel="tooltip" class="label label-default light" data-placement="right" data-original-title="1 article with this tag"><i class="fa fa-tags"></i> Numpy</a>
-        <a href="/tag/linear-regression.html" rel="tooltip" class="label label-default light" data-placement="right" data-original-title="1 article with this tag"><i class="fa fa-tags"></i> Linear Regression</a>
-  </p>
-
-  <hr /><!-- divider -->
-
+</p>
         </div>
-
-        <!-- SIDEBAR -->
-        <div class="right col-md-3">
-          <!-- recent work -->
-          <!-- <div class="widget">
-
-                      <h3>Recent Work</h3>
-
-                      <a class="popup-image thumb" href="assets/images/preview/slider/1.jpg">
-                          <img src="/theme/img/1x1.png" class="img-responsive" data-src="holder.js/85x85/#888:#555555/auto/" alt="img" />
-                      </a>
-                      <a class="popup-video thumb" href="http://www.youtube.com/watch?v=kh29_SERH0Y?rel=0">
-                          <img src="/theme/img/1x1.png" class="ajax-project img-responsive" data-src="holder.js/85x85/#676767:#555555/auto/" alt="img" />
-                      </a>
-                      <a class="popup-video thumb" href="http://vimeo.com/23630702">
-                          <img src="/theme/img/1x1.png" class="ajax-project img-responsive" data-src="holder.js/85x85/#888:#555555/auto/" alt="img" />
-                      </a>
-
-                      <a class="external ajax-project thumb" href="project-external-1.html">
-                          <img src="/theme/img/1x1.png" class="ajax-project img-responsive" data-src="holder.js/85x85/#676767:#555555/auto/" alt="img" />
-                      </a>
-                      <a class="external ajax-project thumb" href="project-external-2.html">
-                          <img src="/theme/img/1x1.png" class="ajax-project img-responsive" data-src="holder.js/85x85/#888:#555555/auto/" alt="img" />
-                      </a>
-                      <a class="external ajax-project thumb" href="project-external-3.html">
-                          <img src="/theme/img/1x1.png" class="ajax-project img-responsive" data-src="holder.js/85x85/#676767:#555555/auto/" alt="img" />
-                      </a>
-
-                      <div class="clearfix"></div>
-                  </div> -->
-
-          <!-- categories -->
-          <div class="widget">
-
-            <h3>Categories</h3>
-
-            <ul>
-               <li><a class="theme_link" href="/category/data-science.html"><i class="fa fa-dot-circle-o"></i> Data Science</a>
-              </li>
-              <li><a class="theme_link" href="/category/deep-learning.html"><i class="fa fa-dot-circle-o"></i> Deep Learning</a>
-              </li>
-              <li><a class="theme_link" href="/category/linear-algebra.html"><i class="fa fa-dot-circle-o"></i> Linear Algebra</a>
-              </li>
-              <li><a class="theme_link" href="/category/machine-learning.html"><i class="fa fa-dot-circle-o"></i> Machine Learning</a>
-              </li>
-            </ul>
-
-          </div>
-
-          <!-- Archives -->
-          <div class="widget">
-
-            <h3>Archives</h3>
-
-            <!-- Get all of the articles with their dates -->
-            <div class="hidden">
-                None
-                None
-                None
-                None
-                None
-                None
-                None
-                None
-                None
-                None
-            </div>
-
-            <!-- If the user indicates they prefer a list.-->                <ul class="tree">
-                    <li>
-                        <span><i class="fa fa-minus-square-o"></i>2019</span>
-                        <ul>
-                            <li>
-                                <span><i class="fa fa-plus-square-o"></i>2019-09</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/multilabel text classification.html">
-                                            <small>Wed 11 September 2019</small>Hierarchical Attention Network For Multilabel Classification (Detailed Case study)</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2019-08</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/Proving Convexity of Mean Squared Error Loss in a Regression Setting..html">
-                                            <small>Sun 25 August 2019</small>Proving Convexity of Mean Squared Error Loss in a Regression Setting.</a>
-                                        </li>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/The Curious Case of Convex Functions.html">
-                                            <small>Sat 24 August 2019</small>The Curious Case of Convex Functions</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2019-06</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/Training Classifier Using PyTorch - Detailed Example..html">
-                                            <small>Wed 26 June 2019</small>Training Classifier Using PyTorch - Detailed Example.</a>
-                                        </li>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/Deep Neural Network for Multiclass Classification Using Keras..html">
-                                            <small>Wed 19 June 2019</small>Deep Neural Network for Multiclass Classification Using Keras.</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2019-05</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/TextRank Algorithm for Key-Phrase Extraction / Text Summarization..html">
-                                            <small>Fri 24 May 2019</small>TextRank Algorithm for Key Phrase Extraction / Text Summarization.</a>
-                                        </li>
-                                </ul>
-                            </li>
-                        </ul>                        <span><i class="fa fa-minus-square-o"></i>2018</span>
-                        <ul>
-                            <li>
-                                <span><i class="fa fa-plus-square-o"></i>2018-12</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/fantasy_sports_auto_selection.html">
-                                            <small>Mon 03 December 2018</small>Auto Dream11 Selector</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2018-10</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/image_text_classification.html">
-                                            <small>Wed 10 October 2018</small>Product Classificatication Using Image and Text (Deep Learning)</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2018-07</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/Logistic Regression from scratch..html">
-                                            <small>Sun 08 July 2018</small>Binary Classification using Logistic Regression using numpy</a>
-                                        </li>
-                                </ul>
-                                <span><i class="fa fa-plus-square-o"></i>2018-06</span>
-                                <ul>
-                                        <li style="display: none;">
-                                            <a class="theme_link" href="/Linear Regression using Numpy.html">
-                                            <small>Fri 08 June 2018</small>Linear regression using numpy</a>
-                                        </li>
-                                </ul>
-                            </li>
-                        </ul></li>
-                </ul></div>
-
-        </div>
-        <!-- /SIDEBAR -->
-
-      </div>
-
-    </article>
-  </section>
-  <!-- /BLOG -->
-
-<!-- FOOTER -->
-<footer>
-
-  <!-- SCROOL TO TOP -->
-  <a href="#toTop" class="fa fa-arrow-up toTop"></a>
-
-  <div class="container">
-
-    <div class="row">
-
-        <div class="col-md-6 copyright">
-            thedatamint
-            <br />2015 &copy; All Rights Reserved.
-        </div>
-
-        <div class="col-md-6 text-right">
-              <a href="https://www.linkedin.com/in/pritish-sunil-jadhav-537075a4/" class="social fa fa-pritish on linkedin" target="_blank"></a>
-              <a href="https://www.linkedin.com/in/mrunal-jadhav-428a85175/" class="social fa fa-mrunal on linkedin" target="_blank"></a>
-        </div>
-
     </div>
 
-  </div>
-</footer>
-<!-- /FOOTER -->
+<div class="fh5co-narrow-content">
+<div class="animate-box" data-animate-effect="fadeInLeft">
+    <h2><!-- <i class="icon-speech-bubble"></i>  -->Comments</h2>
+</div>
+<div class="animate-box" data-animate-effect="fadeInLeft">
+    <div id="disqus_thread"></div>
+</div>
+
+<script>
+var disqus_config = function () { 
+  this.language = "en";
+};
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://gitcd-dev.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript><a href="https://disqus.com/?ref_noscript">Please enable JavaScript to view the comments powered by Disqus.</a></noscript>
+<div class="fh5co-footer">
+    <br>
+    <p><small>&copy; 2018 The Data Mint. All Rights Reserved.</span> <span>Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a></span>
+    <br /><span>Pelican Theme by: <a href="https://github.com/claudio-walser/pelican-fh5co-marble" target="_blank">Claudio Walser</a></span></small></p>
+
+</div>                
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+    <!-- jQuery Easing -->
+    <script src="/theme/js/jquery.easing.1.3.js"></script>
+    <!-- Bootstrap -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+    <!-- Waypoints -->
+    <script src="/theme/js/jquery.waypoints.min.js"></script>
+    <!-- Flexslider -->
+    <script src="/theme/js/jquery.flexslider-min.js"></script>
 
 
-
-<!-- CORE FILES -->
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.isotope.js"></script>
-<script type="text/javascript" src="/theme/js/masonry.js"></script>
-
-<!-- PLUGINS -->
-<script type="text/javascript" src="/theme/js/jquery.fitvids.min.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.appear.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.superslides.min.js"></script>
-<script type="text/javascript" src="/theme/js/owl.carousel.min.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.carouFredSel-6.2.1-packed.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.countTo.js"></script>
-<script type="text/javascript" src="/theme/js/jquery.magnific-popup.min.js"></script>
-<script type="text/javascript" src="/theme/js/holder.js"></script>
-<!-- delete on production -->
-
-<!-- js scripts -->
-<script async type="text/javascript" src="/theme/js/scripts.js"></script>
-
-<script type="text/javascript" src="/theme/js/ImageAutoResize.js"></script>
-<script type="text/javascript" src="/theme/js/application.js"></script>
-
-
-
-
-
-</body>
-
+    <!-- MAIN JS -->
+    <script src="/theme/js/main.js"></script>
+    </body>
 </html>

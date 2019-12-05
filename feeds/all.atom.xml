@@ -1760,7 +1760,7 @@ Test data has 7229 datapoints
 &lt;li&gt;Sure, one can take a Global Max of returned activations and use them to predict classes but a "hard-max" takes the maximum value and forgets everything else.  &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;ENTER ATTENTION MECHANISM !!&lt;/p&gt;
-&lt;p&gt;&lt;img src="./../../../images/multiclass_attention/entry_meme.jpg"&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src="./../../../images/multiclass_attention/entry_meme.gif"&gt;&lt;br&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;A softmax (Attention weights) gives the probability distribution over each activation at different time steps. Definitely, a distribution is more helpful than a point estimate (Stats 101, right?)&lt;/li&gt;
 &lt;/ul&gt;
