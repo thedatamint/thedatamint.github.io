@@ -1,0 +1,13 @@
+.drawing
+{
+    border-color: rgb(38, 153, 168);
+    border-width: 5px;
+    border-radius: 5%;
+    border-style: inset;
+    height: 33rem;
+    width: 33rem;
+    display: inline-block;
+    padding : 0.5%;
+    margin : 2%;
+
+}
