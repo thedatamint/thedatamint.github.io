@@ -39,9 +39,9 @@ function init() {
             });
 
         });
-    } else {
+    } /*else {
         alert('no address');
-    }
+    }*/
 }
 
 $(function(){
