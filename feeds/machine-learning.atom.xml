@@ -1115,7 +1115,7 @@ h6:hover .anchor-link {
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h1 id="Classification-Algorithms---"&gt;Classification Algorithms  -&lt;a class="anchor-link" href="#Classification-Algorithms---"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Classification is a branch of supervised machine learning algorithms where target values are discrete.&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="600"&gt;
+&lt;img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="350"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1158,7 +1158,7 @@ True probability has a value between 0 and 1.&lt;br&gt; Thus Linear Regression f
 &lt;/ul&gt;
 &lt;p&gt;So how do we solve the Classification problems ???&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/question.gif",width="300"&gt;
+&lt;img src="./images/binary_classification/notebook_images/question.gif",width="270"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -2066,10 +2066,23 @@ F1\ Score =\ \frac{2* Precision * Recall}{Precision+Recall}
 \Huge Congratulations\ on\ Completing\ Logistic\ Regression\ !!!
 \end{align}&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/celebrate.gif",width="600"&gt;
+&lt;img src="./images/binary_classification/notebook_images/celebrate.gif",width="700"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;In&amp;nbsp;[&amp;nbsp;]:&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class=" highlight hl-ipython2"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
 &lt;/div&gt;
  
 
