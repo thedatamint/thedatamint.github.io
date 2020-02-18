@@ -1246,7 +1246,7 @@ h6:hover .anchor-link {
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Classification-Algorithms---">Classification Algorithms  -<a class="anchor-link" href="#Classification-Algorithms---">&#182;</a></h1><p>Classification is a branch of supervised machine learning algorithms where target values are discrete.</p>
 <div>
-<img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="2%">
+<img src="./images/binary_classification/notebook_images/Machine-learning.jpg",width="20%">
 </div>
 </div>
 </div>
@@ -1270,24 +1270,25 @@ However, in order to improve productivity, you would like to add more layer of p
 ◦ a response variable Y and <br>
 ◦ a single explanatory variable X.<br>
 However, Linear Regression doesn't seem to be a good fit for classification problems owing to the following reasons.</p>
-<hr>
-<hr>
-<ul>
-<li><p>Linear Regression assumes normality for the residual errors(which represent the variation in Y) whereas a classification problem is not normally distributed.
-<br><br></p>
-</li>
-<li><p>The variance (and the standard deviation) for linear regression does not depend on X(input variable).<br> For classification problems, the mean and the variance depends upon the probability. Thus any input affecting the probability of output, affects the mean and variance. This voilates the principles of linear regression. 
-<br><br></p>
-</li>
-<li><p>Linear Regression deals with continuous variables instead of discrete variables. This may result in an output having value less than 0 or greater than 1.<br>
-True probability has a value between 0 and 1.<br> Thus Linear Regression fails to model true probability.
-<br><br></p>
-<ul>
-<li>We can solve the problem of unbounded output by using the log p(x) to be the linear function of x, so that changing an input variable multiplies the probability by a fixed amount. <br>Here, the problem is that logarithms are unbounded in only one direction, and linear functions are not. </li>
-</ul>
-</li>
-</ul>
-<p>So how do we solve the Classification problems ???</p>
+<div>
+<img src="./images/binary_classification/notebook_images/linear-joke.png",width="20%">
+<!--<a href="https://www.pinterest.com.au/pin/68539225558983859/">source</a>-->
+</div>
+***
+***
+
+* Linear Regression assumes normality for the residual errors(which represent the variation in Y) whereas a classification problem is not normally distributed.
+<br><br>
+
+* The variance (and the standard deviation) for linear regression does not depend on X(input variable).<br> For classification problems, the mean and the variance depends upon the probability. Thus any input affecting the probability of output, affects the mean and variance. This voilates the principles of linear regression. 
+<br><br>
+
+* Linear Regression deals with continuous variables instead of discrete variables. This may result in an output having value less than 0 or greater than 1.<br>
+  True probability has a value between 0 and 1.<br> Thus Linear Regression fails to model true probability.
+ <br><br>
+ * We can solve the problem of unbounded output by using the log p(x) to be the linear function of x, so that changing an input variable multiplies the probability by a fixed amount. <br>Here, the problem is that logarithms are unbounded in only one direction, and linear functions are not. 
+
+So how do we solve the Classification problems ???
 <div>
 <img src="./images/binary_classification/notebook_images/question.gif",width="10%">
 </div>
