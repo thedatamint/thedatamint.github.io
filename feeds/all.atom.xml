@@ -18023,7 +18023,7 @@ h6:hover .anchor-link {
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h1 id="Classification-Algorithms---"&gt;Classification Algorithms  -&lt;a class="anchor-link" href="#Classification-Algorithms---"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Classification is a branch of supervised machine learning algorithms where target values are discrete.&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="100"&gt;
+&lt;img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="5%"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -18066,7 +18066,7 @@ True probability has a value between 0 and 1.&lt;br&gt; Thus Linear Regression f
 &lt;/ul&gt;
 &lt;p&gt;So how do we solve the Classification problems ???&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/question.gif",width="270"&gt;
+&lt;img src="./images/binary_classification/notebook_images/question.gif",width="10%"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -18103,7 +18103,7 @@ Odds\ Ratio  = \frac{P}{(1-P)}
 \end{align}
 Naturally, the more likely it is for the positive event P(Y=1|X=x) to occur, the larger is the odds ratio.&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/odds.gif",width="400"&gt;
+&lt;img src="./images/binary_classification/notebook_images/odds.gif",width="20%"&gt;
 &lt;/div&gt;&lt;p&gt;Now, if we take Log on both sides, we get &lt;a href="https://en.wikipedia.org/wiki/Logit"&gt;&lt;strong&gt;Logit Function&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;Logit Function is a monotonic function. The higher the log of odds ratio, the higher is the odds ratio.&lt;/p&gt;
 &lt;ul&gt;
@@ -18122,7 +18122,7 @@ logit(P)\ =\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i
 \end{align}
 The plot of the logit function is :&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/logit.png",width="400"&gt;
+&lt;img src="./images/binary_classification/notebook_images/logit.png",width="20%"&gt;
 &lt;/div&gt;&lt;p&gt;Now, take the inverse logit on both sides,we get &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;&lt;strong&gt;sigmoid function&lt;/strong&gt; &lt;/a&gt;
 \begin{align}
 logit^{-1}(logit(P))\ =logit^{-1}(\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i)
@@ -18135,7 +18135,7 @@ P = \frac{1}{1+e^{-(z)}}
 \end{align}
 The plot of the sigmoid function is :&lt;/p&gt;
 &lt;p&gt;&lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/sigmoid.png",width="400"&gt;
+&lt;img src="./images/binary_classification/notebook_images/sigmoid.png",width="20%"&gt;
 &lt;/div&gt;
 &lt;br&gt;
 \begin{align}
@@ -18852,7 +18852,7 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$&lt;/p&gt;
 * False Negatives (Type 2 Error)— Labels which was predicted as Negative, but is actually Positive 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/matrix_joke.png",width="450"&gt;
+&lt;img src="./images/binary_classification/notebook_images/matrix_joke.png",width="20%"&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;h3 id="Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:"&gt;Other Metrics that can be computed using Confusion Matrix are :&lt;a class="anchor-link" href="#Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;ol&gt;
@@ -18974,7 +18974,7 @@ F1\ Score =\ \frac{2* Precision * Recall}{Precision+Recall}
 \Huge Congratulations\ on\ Completing\ Logistic\ Regression\ !!!
 \end{align}&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/celebrate.gif",width="700"&gt;
+&lt;img src="./images/binary_classification/notebook_images/celebrate.gif",width="35%"&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
