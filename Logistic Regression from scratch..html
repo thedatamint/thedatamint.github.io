@@ -1245,16 +1245,219 @@ h6:hover .anchor-link {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Classification-Algorithms---">Classification Algorithms  -<a class="anchor-link" href="#Classification-Algorithms---">&#182;</a></h1><p>Classification is a branch of supervised machine learning algorithms where target values are discrete.</p>
-<p><strong>Problem Definition</strong> - <br> 
-Suppose you are working as Supervising officer at a food packaging company where your department handles packaging of 'Apples' and 'Bananas'.
-<br>
-<img src="../../images/binary_classification/notebook_images/apples_conveyor1.jpg"><br>
-However, a bottleneck in the packaging process is the fact that currently, fruits are sorted manually by a team of 10 people. 
-<br>
-<img src="../../images/binary_classification/notebook_images/manual_sorting_example.jpg">
-<br>
+<div>
+<img src="./images/binary_classification/notebook_images/fruits_vegetables.gif",width="600">
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3><strong>Problem Definition</strong> - <br></h3>
+<blockquote><p>Suppose you are working as Supervising officer at a food packaging company where your department handles packaging of 'Apples' and 'Bananas'. However, a bottleneck in the packaging process is the fact that currently, fruits are sorted manually by a team of 10 people. 
 However, in order to improve productivity, you would like to add more layer of processing to the packaging process wherein a camera captures the image of the incoming fruit and automatically sorts it into categories 'Apples' v/s 'Bananas'.</p>
-<p>In this case, a traditional classification algorithm like Logistic Regression can definitely help us. So, lets dive right into it.</p>
+<p>In a binary classification problem, the output is 0 or 1 (Apple or Banana). This is represented by Bernouli random variable. If can experiment is conducted with probability P, then it can take on 2 values, 1 for success and 0 otherwise. Thus the output is bounded on both ends.</p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Can-we-use-Linear-Regression-to-solve-the-classification-Problem???">Can we use Linear Regression to solve the classification Problem???<a class="anchor-link" href="#Can-we-use-Linear-Regression-to-solve-the-classification-Problem???">&#182;</a></h2><p>A linear regression studies a relationship between <br>
+◦ a response variable Y and <br>
+◦ a single explanatory variable X.<br>
+However, Linear Regression doesn't seem to be a good fit for classification problems owing to the following reasons.</p>
+<hr>
+<hr>
+<ul>
+<li><p>Linear Regression assumes normality for the residual errors(which represent the variation in Y) whereas a classification problem is not normally distributed.
+<br><br></p>
+</li>
+<li><p>The variance (and the standard deviation) for linear regression does not depend on X(input variable).<br> For classification problems, the mean and the variance depends upon the probability. Thus any input affecting the probability of output, affects the mean and variance. This voilates the principles of linear regression. 
+<br><br></p>
+</li>
+<li><p>Linear Regression deals with continuous variables instead of discrete variables. This may result in an output having value less than 0 or greater than 1.<br>
+True probability has a value between 0 and 1.<br> Thus Linear Regression fails to model true probability.
+<br><br></p>
+<ul>
+<li>We can solve the problem of unbounded output by using the log p(x) to be the linear function of x, so that changing an input variable multiplies the probability by a fixed amount. <br>Here, the problem is that logarithms are unbounded in only one direction, and linear functions are not. </li>
+</ul>
+</li>
+</ul>
+<p>So how do we solve the Classification problems ???</p>
+<div>
+<img src="./images/binary_classification/notebook_images/question.gif",width="300">
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The easiest and sensible modification to the input variable is explained below..</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Logistic-Regression">Logistic Regression<a class="anchor-link" href="#Logistic-Regression">&#182;</a></h1><blockquote><p>Logistic Regression is the classification algorithm for linearly seperable data points and dichotomous(binary) outcome. It works by learning the function of P(Y|X). <br>
+where Y is the <strong>indicator variable</strong> with inputs X <br><br>
+Given a data point(x,y), logistic regression assumes : P(Y=1| X=x) <br><br>
+We can say,<br>P(Y=1|X=x) = E(Y) (conditional expectation of the indicator variable)</p>
+</blockquote>
+<p>Mathematically this is given by,
+\begin{align}P(Y=1|X=x)\ = \sigma(z) 
+\\
+\ where \ z \ is \ given \ by,  
+z= \theta_0 + \sum_{i=1}^{m} \theta_ix_i
+\\ 
+\end{align}</p>
+<h2 id="1.-The-Sigmoid-Function">1. The Sigmoid Function<a class="anchor-link" href="#1.-The-Sigmoid-Function">&#182;</a></h2><p>Logistic Regression starts by calculating the odds ratio. <br></p>
+<blockquote><p><a href="https://en.wikipedia.org/wiki/Odds_ratio"><strong>Odds Ratio</strong></a> -<em>Odds Ratio(OR) is defined as the ratio of the probability of success and the probability of failure. The OR represents the odds that an outcome will occur given a particular exposure, compared to the odds of the outcome occurring in the absence of that exposure.</em></p>
+</blockquote>
+<p>The odds ratio is calculated from probability and unlike the probability, it may range from 0 to $\infty$
+\begin{align}
+Odds\ Ratio  = \frac{P}{(1-P)}
+\end{align}
+Naturally, the more likely it is for the positive event P(Y=1|X=x) to occur, the larger is the odds ratio.</p>
+<div>
+<img src="./images/binary_classification/notebook_images/odds.gif",width="400">
+</div><p>Now, if we take Log on both sides, we get <a href="https://en.wikipedia.org/wiki/Logit"><strong>Logit Function</strong></a></p>
+<blockquote><p>Logit Function is a monotonic function. The higher the log of odds ratio, the higher is the odds ratio.</p>
+<ul>
+<li>It is usually difficult to model a variable which has restricted range, such as probability.  This transformation is an attempt to get around the restricted range problem.  It maps probability ranging between 0 and 1 to log odds ranging from negative infinity to positive infinity. 
+\begin{align}
+logit(P)\ =\ log(\frac{P}{(1-P)})\ =log(P)-log(1-P)
+\\
+\end{align}</li>
+</ul>
+</blockquote>
+<p>Therefore,
+\begin{align}
+\\
+logit(P)\ =\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i
+\\
+\end{align}
+The plot of the logit function is :</p>
+<div>
+<img src="./images/binary_classification/notebook_images/logit.png",width="400">
+</div><p>Now, take the inverse logit on both sides,we get <a href="https://en.wikipedia.org/wiki/Sigmoid_function"><strong>sigmoid function</strong> </a>
+\begin{align}
+logit^{-1}(logit(P))\ =logit^{-1}(\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i)
+\\
+\\
+P = \frac{1}{1+e^{-(\theta_0 + \sum_{i=1}^{m} \theta_ix_i})}
+\\
+\\
+P = \frac{1}{1+e^{-(z)}}
+\end{align}
+The plot of the sigmoid function is :</p>
+<p><div>
+<img src="./images/binary_classification/notebook_images/sigmoid.png",width="400">
+</div>
+<br>
+\begin{align}
+\\
+P\ =\ sigmoid(z)\ =  \sigma(z) 
+\\
+\end{align}
+<br></p>
+<blockquote><p><strong><em>In Logistic Regression, we use Sigmoid Function to map the real value to a value between 0 and 1. In other words, it maps prediction to probability.</em></strong></p>
+</blockquote>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="To-Summarize-the-previous-Section">To Summarize the previous Section<a class="anchor-link" href="#To-Summarize-the-previous-Section">&#182;</a></h3>\begin{align}
+P(Y=1|X=x)\ =\ sigmoid(z)\ =\  \sigma(z) 
+\end{align}<p>where,
+<br>
+\begin{align}
+z\ =\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i\ =\ \theta_0x_0 + \sum_{i=1}^{m} \theta_ix_i\ \ \ (x_0\ =\ 1)
+\end{align}
+Therefore,
+<br>
+\begin{align}
+z\ =\ \sum_{i=0}^{m} \theta_ix_i
+\end{align}
+Vectorizing the above equation we can write,
+<br>
+\begin{align}
+P(Y=1|X=x)\ =\ \sigma(\theta^Tx) 
+\end{align}</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.-Deriving-the-Cost-Function">2. Deriving the Cost Function<a class="anchor-link" href="#2.-Deriving-the-Cost-Function">&#182;</a></h2><p>The calculation of the probabilities in logistic regression are parametrized by $ \theta $. Our goal is to estimate the values of these parameters. We estimate these my using <strong>Maximum Likelihood Estimator(MLE)</strong>.<br> 
+We perform this in 2 steps : <br></p>
+<ol>
+<li>Write the likelihood Function<blockquote><p><a href="https://en.wikipedia.org/wiki/Likelihood_function"><strong>Likelihood Functions</strong></a> measures the goodness of a fit of a statistical mode to a sample of data for given values of unknown parameters.</p>
+</blockquote>
+</li>
+<li>Find the values of the parameters that maximise the likelihood function</li>
+</ol>
+<h3 id="Step-1"><strong>Step 1</strong><a class="anchor-link" href="#Step-1">&#182;</a></h3><p>The labels that we are predicting are binary, and the output of our logistic regression function is supposed to be the probability that the label is one. This means that we can (and should) interpret each label as a Bernoulli random variable: Y ∼ Ber(P) where P = σ(θ^Tx).<br><br></p>
+<p>The Probability can be written as,<br>
+\begin{align}
+P(Y=1|X=x)\ =\ \sigma(\theta^Tx) 
+\end{align}
+By the laws of Probability,
+\begin{align}
+P(Y=0|X=x)\ =\ 1-\ \sigma(\theta^Tx) 
+\end{align}
+The compact way of writing these equations for a datapoint (x,y) is :
+<br>
+<br>
+\begin{align}
+P(Y=y|X=x)\ =\ \sigma(\theta^Tx)^y\ .\ (1-\ \sigma(\theta^Tx))^{(1-y)}
+\end{align}
+<br>
+<br>
+This is also the probability mass function of a Bernoulli. Now that we know the probability mass function we can write the likelihood of the data.
+<br>
+<br>
+\begin{align}
+L(\theta)=\ \prod_{i=1}^{m} \ P(Y=y^{(i)}\ |\ X=x^{(i)})
+\end{align}
+Substituting the likelihood of the Bernoulli,<br>
+\begin{align}
+L(\theta)=\ \prod_{i=1}^{m} \ \sigma(\theta^Tx^{(i)})^{y^{(i)}}\ .\ (1-\ \sigma(\theta^Tx^{(i)}))^{(1-y^{(i)})}
+\end{align}
+Taking the log of the function, we can get the log likelihood,<br><br>
+\begin{align}
+LL(\theta)=\ \sum_{i=1}^{m}\ y^{(i)}log\ \sigma(\theta^Tx^{(i)})\ +\ (1-y^{(i)})log\ (1-\ \sigma(\theta^Tx^{(i)}))
+\end{align}</p>
+<h3 id="Step-2"><strong>Step 2</strong><a class="anchor-link" href="#Step-2">&#182;</a></h3><p>Now that we have likelihood function, we need to choose the values of theta that would maximise it. We can find the best values of theta by using an optimization algorithm such as Gradient Descent. In optimization algorithm we  calculate the partial derivative of log likelihood with respect to each parameter.<br><br></p>
+<ul>
+<li><em>Gradient Descent Works by minimising the result of a function. Minimising the negative log likelihood is equivalent to maximising the log likelihood.</em><br></li>
+<li><em>The 1/m is to "average" the squared error over the number of components so that the number of components doesn't affect the function</em><br><br></li>
+</ul>
+<p>Therefore, the Cost Function as follows : <br>
+\begin{align}
+J(\theta)=\ -\frac{1}{m}\sum_{i=1}^{m}\ y^{(i)}log\ \sigma(\theta^Tx^{(i)})\ +\ (1-y^{(i)})log\ (1-\ \sigma(\theta^Tx^{(i)}))
+\end{align}
+Here are the partial derivatives, we will derive later,<br><br>
+\begin{align}
+A=\ \sigma(\theta^Tx) 
+\\
+\\
+\frac{\partial J(\theta)}{\partial \theta}  = \frac{1}{m}(A - Y)^T X
+\\
+\\
+\frac{\partial J(\theta)}{\partial \theta_0} = \frac{1}{m} \sum_{i =1}^{m} (A - Y^{(i)}) 
+\end{align}</p>
 
 </div>
 </div>
@@ -1291,18 +1494,6 @@ However, in order to improve productivity, you would like to add more layer of p
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/usr/local/lib/python2.7/dist-packages/sklearn/utils/fixes.py:313: FutureWarning: numpy not_equal will not check object identity in the future. The comparison did not return the same result as suggested by the identity (`is`)) and will change.
-  _nan_object_mask = _nan_object_array != _nan_object_array
-</pre>
-</div>
-</div>
 
 <div class="output_area">
 
@@ -1724,7 +1915,7 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">train_logistic_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">3000</span><span class="p">,</span> <span class="n">print_cost</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
@@ -1758,7 +1949,7 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$</p>
     <span class="n">grads</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;dw&quot;</span><span class="p">:</span> <span class="n">dw</span><span class="p">,</span>
              <span class="s2">&quot;db&quot;</span><span class="p">:</span> <span class="n">db</span><span class="p">}</span>
 
-    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">costs</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">costs</span><span class="p">,</span><span class="n">y_pred</span>
 </pre></div>
 
     </div>
@@ -1768,7 +1959,7 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">kl</span> <span class="o">=</span> <span class="n">train_logistic_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">print_cost</span><span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
@@ -1868,8 +2059,146 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$</p>
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Awesome !!!</p>
-<p>We were able to achieve 95% accuracy using logistic regressions.</p>
+<p>We were able to achieve 96.83% accuracy using logistic regressions.</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Confusion-Matrix">Confusion Matrix<a class="anchor-link" href="#Confusion-Matrix">&#182;</a></h2><blockquote><p><a href="https://en.wikipedia.org/wiki/Confusion_matrix">Confusion Matrix</a> is the performance measurement for classification algorithms.It not only provides insight of errors made my model but also the type of erros made.<br>Some of the basic terminologies related to Confusion Matrix are as follows :</p>
+
+<pre><code>* True Positive — Label which was predicted Positive and is actually Positive.
+* True Negatives — Label which was predicted Negative and is actually Negative.
+* False Positive (Type 1 Error) — Label which was predicted as Positive, but is actually Negative.
+* False Negatives (Type 2 Error)— Labels which was predicted as Negative, but is actually Positive 
+</code></pre>
+<div>
+<img src="./images/binary_classification/notebook_images/matrix_joke.png",width="450">
+</div>
+</blockquote>
+<h3 id="Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:">Other Metrics that can be computed using Confusion Matrix are :<a class="anchor-link" href="#Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:">&#182;</a></h3><ol>
+<li><a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity"><strong>Sensitivity</strong></a> - It is also called as <strong>Recall, Hit Rate, True Positive Rate(TPR)</strong>. It measures the proportion of actual positives that are correctly identified.
+\begin{align}
+TPR =\ \frac{TP}{P}\ =\ \frac{TP}{TP+FN}
+\end{align}
+<br><br></li>
+<li><a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity"><strong>Specificity</strong></a> - It is also called as <strong>Selectivity, True Negative Rate(TNR)</strong>. It measures the proportion of actual negatives that are correctly identified.
+\begin{align}
+TNR =\ \frac{TN}{N}\ =\ \frac{TN}{TN+FP}
+\end{align}
+<br><br></li>
+<li><a href="https://en.wikipedia.org/wiki/Positive_and_negative_predictive_values"><strong>Precision</strong></a> - It is also called as <strong>Positive Predictive Value</strong>.The precision metric shows the accuracy of the positive class. It measures how likely the prediction of the positive class is correct.
+\begin{align}
+Precision=\ \frac{TP}{TP+FP}
+\end{align}
+<br><br></li>
+<li><a href="https://en.wikipedia.org/wiki/Accuracy_and_precision"><strong>Accuracy Score</strong></a>- Accuracy is calculated as the number of all correct predictions divided by the total number of the dataset. 
+\begin{align}
+Accuracy=\ \frac{TP+TN}{TP+TN+FP+FN}
+\end{align}
+<br><br></li>
+<li><a href="https://en.wikipedia.org/wiki/F1_score"><strong>F1 Score</strong></a> - The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0.
+\begin{align}
+F1\ Score =\ \frac{2* Precision * Recall}{Precision+Recall}
+\end{align}
+<br><br></li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Here we consider the detection of breast cancer(Y=1) as positive result</span>
+<span class="sd">and cancer not being detected (Y=0) as negative result</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">def</span> <span class="nf">plot_confusion_matrix</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span><span class="n">predicted</span><span class="p">):</span>
+    <span class="n">confusion_matrix</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(((</span><span class="n">predicted</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">actual</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(((</span><span class="n">predicted</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">actual</span><span class="o">==</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(((</span><span class="n">predicted</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">actual</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+    <span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="nb">int</span><span class="p">(((</span><span class="n">predicted</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">&amp;</span><span class="p">(</span><span class="n">actual</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">confusion_matrix</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">plot_confusion_matrix</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Y_pred</span><span class="p">)</span>
+<span class="n">TP</span><span class="o">=</span><span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">FN</span><span class="o">=</span><span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">FP</span><span class="o">=</span><span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">TN</span><span class="o">=</span><span class="n">confusion_matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">recall</span><span class="o">=</span><span class="n">TP</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">FN</span><span class="p">)</span>
+<span class="n">specificity</span> <span class="o">=</span> <span class="n">TN</span><span class="o">/</span><span class="p">(</span><span class="n">TN</span><span class="o">+</span><span class="n">FP</span><span class="p">)</span>
+<span class="n">precision</span><span class="o">=</span><span class="n">TP</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">FP</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="o">=</span> <span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">TP</span><span class="o">+</span><span class="n">TN</span><span class="o">+</span><span class="n">FP</span><span class="o">+</span><span class="n">FN</span><span class="p">)</span>
+<span class="n">f1_score</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">precision</span><span class="o">*</span><span class="n">recall</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">precision</span><span class="o">+</span><span class="n">recall</span><span class="p">)</span>
+
+
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The Confusion Matrix of the output is :&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The Sensitivity is : &quot;</span><span class="p">,</span> <span class="n">recall</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The Specificity is : &quot;</span><span class="p">,</span> <span class="n">specificity</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The Precision is : &quot;</span><span class="p">,</span> <span class="n">precision</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The Accuracy is : &quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;The F1 Score is : &quot;</span><span class="p">,</span> <span class="n">f1_score</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The Confusion Matrix of the output is :
+[[ 353.    4.]
+ [  14.  198.]]
+(&#39;The Sensitivity is : &#39;, 0.96185286103542234)
+(&#39;The Specificity is : &#39;, 0.98019801980198018)
+(&#39;The Precision is : &#39;, 0.98879551820728295)
+(&#39;The Accuracy is : &#39;, 0.96836555360281196)
+(&#39;The F1 Score is : &#39;, 0.97513812154696133)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+\begin{align}
+\Huge Congratulations\ on\ Completing\ Logistic\ Regression\ !!!
+\end{align}<p><br></p>
+<div>
+<img src="./images/binary_classification/notebook_images/celebrate.gif",width="600">
+</div>
 </div>
 </div>
 </div>
