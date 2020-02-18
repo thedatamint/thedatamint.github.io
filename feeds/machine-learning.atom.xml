@@ -1113,21 +1113,17 @@ h6:hover .anchor-link {
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */&lt;/style&gt;&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h1 id="Classification-Algorithms---"&gt;Classification Algorithms  -&lt;a class="anchor-link" href="#Classification-Algorithms---"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Classification is a branch of supervised machine learning algorithms where target values are discrete.&lt;/p&gt;
-&lt;div width="20em"&gt;
-&lt;img src="./images/binary_classification/notebook_images/Machine-learning.jpg",width="20em"&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h3&gt;&lt;strong&gt;Problem Definition&lt;/strong&gt; - &lt;br&gt;&lt;/h3&gt;
-&lt;blockquote&gt;&lt;p&gt;Suppose you are working as Supervising officer at a food packaging company where your department handles packaging of 'Apples' and 'Bananas'. However, a bottleneck in the packaging process is the fact that currently, fruits are sorted manually by a team of 10 people. 
-However, in order to improve productivity, you would like to add more layer of processing to the packaging process wherein a camera captures the image of the incoming fruit and automatically sorts it into categories 'Apples' v/s 'Bananas'.&lt;/p&gt;
-&lt;p&gt;In a binary classification problem, the output is 0 or 1 (Apple or Banana). This is represented by Bernouli random variable. If can experiment is conducted with probability P, then it can take on 2 values, 1 for success and 0 otherwise. Thus the output is bounded on both ends.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;Suppose you are an auto enthusiast. You have been capturing the pictures of cars for a long time and putting them in an album labelled as 'Cars'. Here the sorting of the photos is done manually.&lt;/li&gt;
+&lt;li&gt;To manage your library easily, you would like to automate the process wherein an image captured by camera is scanned. If the image is of a Car, it is automatically organised under the label-'Cars'.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div width&gt;
+&lt;img src="./images/binary_classification/notebook_images/Machine-learning.jpg",width="20em"&gt;
+&lt;/div&gt;&lt;h1 id="Classification-Algorithms---"&gt;Classification Algorithms  -&lt;a class="anchor-link" href="#Classification-Algorithms---"&gt;&amp;#182;&lt;/a&gt;&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;Classification is a branch of supervised machine learning algorithms where target values are discrete. &lt;/li&gt;
+&lt;li&gt;In a binary classification problem, the output is 1 or 0 (Car or not). This is represented by Bernouli random variable. If can experiment is conducted with probability P, then it can take on 2 values, 1 for success and 0 otherwise. Thus the output is bounded on both ends.&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1135,42 +1131,10 @@ However, in order to improve productivity, you would like to add more layer of p
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Can-we-use-Linear-Regression-to-solve-the-classification-Problem???"&gt;Can we use Linear Regression to solve the classification Problem???&lt;a class="anchor-link" href="#Can-we-use-Linear-Regression-to-solve-the-classification-Problem???"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;A linear regression studies a relationship between &lt;br&gt;
-◦ a response variable Y and &lt;br&gt;
-◦ a single explanatory variable X.&lt;br&gt;
-However, Linear Regression doesn't seem to be a good fit for classification problems owing to the following reasons.&lt;/p&gt;
-&lt;div&gt;
-&lt;img src="./images/binary_classification/notebook_images/linear-joke.png",width="20%"&gt;
-&lt;!--&lt;a href="https://www.pinterest.com.au/pin/68539225558983859/"&gt;source&lt;/a&gt;--&gt;
-&lt;/div&gt;&lt;hr&gt;
-&lt;hr&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Linear Regression assumes normality for the residual errors(which represent the variation in Y) whereas a classification problem is not normally distributed.
-&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The variance (and the standard deviation) for linear regression does not depend on X(input variable).&lt;br&gt; For classification problems, the mean and the variance depends upon the probability. Thus any input affecting the probability of output, affects the mean and variance. This voilates the principles of linear regression. 
-&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;Linear Regression deals with continuous variables instead of discrete variables. This may result in an output having value less than 0 or greater than 1.&lt;br&gt;
-True probability has a value between 0 and 1.&lt;br&gt; Thus Linear Regression fails to model true probability.
-&lt;br&gt;&lt;br&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;We can solve the problem of unbounded output by using the log p(x) to be the linear function of x, so that changing an input variable multiplies the probability by a fixed amount. &lt;br&gt;Here, the problem is that logarithms are unbounded in only one direction, and linear functions are not. &lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;p&gt;So how do we solve the Classification problems ???&lt;/p&gt;
 &lt;div&gt;
 &lt;img src="./images/binary_classification/notebook_images/question.gif",width="10%"&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;The easiest and sensible modification to the input variable is explained below..&lt;/p&gt;
-
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -1190,16 +1154,16 @@ z= \theta_0 + \sum_{i=1}^{m} \theta_ix_i
 \\ 
 \end{align}&lt;/p&gt;
 &lt;h2 id="1.-The-Sigmoid-Function"&gt;1. The Sigmoid Function&lt;a class="anchor-link" href="#1.-The-Sigmoid-Function"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Logistic Regression starts by calculating the odds ratio. &lt;br&gt;&lt;/p&gt;
-&lt;blockquote&gt;&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Odds_ratio"&gt;&lt;strong&gt;Odds Ratio&lt;/strong&gt;&lt;/a&gt; -&lt;em&gt;Odds Ratio(OR) is defined as the ratio of the probability of success and the probability of failure. The OR represents the odds that an outcome will occur given a particular exposure, compared to the odds of the outcome occurring in the absence of that exposure.&lt;/em&gt;&lt;/p&gt;
+&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;Odds Ratio&lt;/strong&gt; - &lt;em&gt;Odds Ratio(OR) is defined as the ratio of the probability of success and the probability of failure. The OR represents the odds that an outcome will occur given a particular exposure, compared to the odds of the outcome occurring in the absence of that exposure.&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;The odds ratio is calculated from probability and unlike the probability, it may range from 0 to $\infty$
 \begin{align}
-Odds\ Ratio  = \frac{P}{(1-P)}
+Odds\ Ratio\  =\ \frac{P}{(1-P)}
 \end{align}
 Naturally, the more likely it is for the positive event P(Y=1|X=x) to occur, the larger is the odds ratio.&lt;/p&gt;
 &lt;div&gt;
 &lt;img src="./images/binary_classification/notebook_images/odds.gif",width="20%"&gt;
-&lt;/div&gt;&lt;p&gt;Now, if we take Log on both sides, we get &lt;a href="https://en.wikipedia.org/wiki/Logit"&gt;&lt;strong&gt;Logit Function&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;Now, if we take Log on both sides, we get &lt;strong&gt;Logit Function&lt;/strong&gt;&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;Logit Function is a monotonic function. The higher the log of odds ratio, the higher is the odds ratio.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;It is usually difficult to model a variable which has restricted range, such as probability.  This transformation is an attempt to get around the restricted range problem.  It maps probability ranging between 0 and 1 to log odds ranging from negative infinity to positive infinity. 
@@ -1218,7 +1182,7 @@ logit(P)\ =\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i
 The plot of the logit function is :&lt;/p&gt;
 &lt;div&gt;
 &lt;img src="./images/binary_classification/notebook_images/logit.png",width="20%"&gt;
-&lt;/div&gt;&lt;p&gt;Now, take the inverse logit on both sides,we get &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;&lt;strong&gt;sigmoid function&lt;/strong&gt; &lt;/a&gt;
+&lt;/div&gt;&lt;p&gt;Now, take the inverse logit on both sides,we get &lt;strong&gt;sigmoid function&lt;/strong&gt; 
 \begin{align}
 logit^{-1}(logit(P))\ =logit^{-1}(\ \theta_0 + \sum_{i=1}^{m} \theta_ix_i)
 \\
@@ -1275,7 +1239,7 @@ P(Y=1|X=x)\ =\ \sigma(\theta^Tx)
 &lt;h2 id="2.-Deriving-the-Cost-Function"&gt;2. Deriving the Cost Function&lt;a class="anchor-link" href="#2.-Deriving-the-Cost-Function"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;The calculation of the probabilities in logistic regression are parametrized by $ \theta $. Our goal is to estimate the values of these parameters. We estimate these my using &lt;strong&gt;Maximum Likelihood Estimator(MLE)&lt;/strong&gt;.&lt;br&gt; 
 We perform this in 2 steps : &lt;br&gt;&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;Write the likelihood Function&lt;blockquote&gt;&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Likelihood_function"&gt;&lt;strong&gt;Likelihood Functions&lt;/strong&gt;&lt;/a&gt; measures the goodness of a fit of a statistical mode to a sample of data for given values of unknown parameters.&lt;/p&gt;
+&lt;li&gt;Write the likelihood Function&lt;blockquote&gt;&lt;p&gt;&lt;strong&gt;Likelihood Functions&lt;/strong&gt; measures the goodness of a fit of a statistical mode to a sample of data for given values of unknown parameters.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;li&gt;Find the values of the parameters that maximise the likelihood function&lt;/li&gt;
@@ -1939,7 +1903,7 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$&lt;/p&gt;
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Confusion-Matrix"&gt;Confusion Matrix&lt;a class="anchor-link" href="#Confusion-Matrix"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;blockquote&gt;&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Confusion_matrix"&gt;Confusion Matrix&lt;/a&gt; is the performance measurement for classification algorithms.It not only provides insight of errors made my model but also the type of erros made.&lt;br&gt;Some of the basic terminologies related to Confusion Matrix are as follows :&lt;/p&gt;
+&lt;h2 id="Confusion-Matrix"&gt;Confusion Matrix&lt;a class="anchor-link" href="#Confusion-Matrix"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;blockquote&gt;&lt;p&gt;Confusion Matrix is the performance measurement for classification algorithms.It not only provides insight of errors made my model but also the type of erros made.&lt;br&gt;Some of the basic terminologies related to Confusion Matrix are as follows :&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;* True Positive — Label which was predicted Positive and is actually Positive.
 * True Negatives — Label which was predicted Negative and is actually Negative.
@@ -1951,27 +1915,27 @@ A = activations = \sigma {(z)} -\ vector\ of\ size\ m\ \times\ 1$&lt;/p&gt;
 &lt;/div&gt;
 &lt;/blockquote&gt;
 &lt;h3 id="Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:"&gt;Other Metrics that can be computed using Confusion Matrix are :&lt;a class="anchor-link" href="#Other-Metrics-that-can-be-computed-using-Confusion-Matrix-are-:"&gt;&amp;#182;&lt;/a&gt;&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity"&gt;&lt;strong&gt;Sensitivity&lt;/strong&gt;&lt;/a&gt; - It is also called as &lt;strong&gt;Recall, Hit Rate, True Positive Rate(TPR)&lt;/strong&gt;. It measures the proportion of actual positives that are correctly identified.
+&lt;li&gt;&lt;strong&gt;Sensitivity&lt;/strong&gt; - It is also called as &lt;strong&gt;Recall, Hit Rate, True Positive Rate(TPR)&lt;/strong&gt;. It measures the proportion of actual positives that are correctly identified.
 \begin{align}
 TPR =\ \frac{TP}{P}\ =\ \frac{TP}{TP+FN}
 \end{align}
 &lt;br&gt;&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Sensitivity_and_specificity"&gt;&lt;strong&gt;Specificity&lt;/strong&gt;&lt;/a&gt; - It is also called as &lt;strong&gt;Selectivity, True Negative Rate(TNR)&lt;/strong&gt;. It measures the proportion of actual negatives that are correctly identified.
+&lt;li&gt;&lt;strong&gt;Specificity&lt;/strong&gt; - It is also called as &lt;strong&gt;Selectivity, True Negative Rate(TNR)&lt;/strong&gt;. It measures the proportion of actual negatives that are correctly identified.
 \begin{align}
 TNR =\ \frac{TN}{N}\ =\ \frac{TN}{TN+FP}
 \end{align}
 &lt;br&gt;&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Positive_and_negative_predictive_values"&gt;&lt;strong&gt;Precision&lt;/strong&gt;&lt;/a&gt; - It is also called as &lt;strong&gt;Positive Predictive Value&lt;/strong&gt;.The precision metric shows the accuracy of the positive class. It measures how likely the prediction of the positive class is correct.
+&lt;li&gt;&lt;strong&gt;Precision&lt;/strong&gt; - It is also called as &lt;strong&gt;Positive Predictive Value&lt;/strong&gt;.The precision metric shows the accuracy of the positive class. It measures how likely the prediction of the positive class is correct.
 \begin{align}
 Precision=\ \frac{TP}{TP+FP}
 \end{align}
 &lt;br&gt;&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Accuracy_and_precision"&gt;&lt;strong&gt;Accuracy Score&lt;/strong&gt;&lt;/a&gt;- Accuracy is calculated as the number of all correct predictions divided by the total number of the dataset. 
+&lt;li&gt;&lt;strong&gt;Accuracy Score&lt;/strong&gt;- Accuracy is calculated as the number of all correct predictions divided by the total number of the dataset. 
 \begin{align}
 Accuracy=\ \frac{TP+TN}{TP+TN+FP+FN}
 \end{align}
 &lt;br&gt;&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/F1_score"&gt;&lt;strong&gt;F1 Score&lt;/strong&gt;&lt;/a&gt; - The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0.
+&lt;li&gt;&lt;strong&gt;F1 Score&lt;/strong&gt; - The F1 score can be interpreted as a weighted average of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0.
 \begin{align}
 F1\ Score =\ \frac{2* Precision * Recall}{Precision+Recall}
 \end{align}
@@ -2066,11 +2030,42 @@ F1\ Score =\ \frac{2* Precision * Recall}{Precision+Recall}
 &lt;/div&gt;&lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 \begin{align}
-\Huge Congratulations\ on\ Completing\ Logistic\ Regression\ !!!
+\Large Congratulations\ on\ Completing\ Logistic\ Regression\ !!!
 \end{align}&lt;p&gt;&lt;br&gt;&lt;/p&gt;
 &lt;div&gt;
 &lt;img src="./images/binary_classification/notebook_images/celebrate.gif",width="35%"&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Can-we-use-Linear-Regression-to-solve-the-classification-Problem???"&gt;Can we use Linear Regression to solve the classification Problem???&lt;a class="anchor-link" href="#Can-we-use-Linear-Regression-to-solve-the-classification-Problem???"&gt;&amp;#182;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;A linear regression studies a relationship between &lt;br&gt;
+◦ a response variable Y and &lt;br&gt;
+◦ a single explanatory variable X.&lt;br&gt;
+However, Linear Regression doesn't seem to be a good fit for classification problems owing to the following reasons.&lt;/p&gt;
+&lt;div&gt;
+&lt;img src="./images/binary_classification/notebook_images/linear-joke.png",width="20%"&gt;
+&lt;!--&lt;a href="https://www.pinterest.com.au/pin/68539225558983859/"&gt;source&lt;/a&gt;--&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Linear Regression assumes normality for the residual errors(which represent the variation in Y) whereas a classification problem is not normally distributed.
+&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The variance (and the standard deviation) for linear regression does not depend on X(input variable).&lt;br&gt; For classification problems, the mean and the variance depends upon the probability. Thus any input affecting the probability of output, affects the mean and variance. This voilates the principles of linear regression. 
+&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Linear Regression deals with continuous variables instead of discrete variables. This may result in an output having value less than 0 or greater than 1.&lt;br&gt;
+True probability has a value between 0 and 1.&lt;br&gt; Thus Linear Regression fails to model true probability.
+&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;We can solve the problem of unbounded output by using the log p(x) to be the linear function of x, so that changing an input variable multiplies the probability by a fixed amount. &lt;br&gt;Here, the problem is that logarithms are unbounded in only one direction, and linear functions are not. &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
