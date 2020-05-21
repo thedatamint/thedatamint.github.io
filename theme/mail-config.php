@@ -1,12 +1,12 @@
 <?php
 
-define('SMTP_SERVER', 'VALUE_SMTP_SERVER');
-define('SMTP_PORT', VALUE_SMTP_PORT);
-define('SMTP_REALNAME', 'VALUE_SMTP_REALNAME');
-define('SMTP_USER', 'VALUE_SMTP_USER');
-define('SMTP_PASS', 'VALUE_SMTP_PASS');
+define('SMTP_SERVER', 'smtp.gmail.com');
+define('SMTP_PORT', 465);
+define('SMTP_REALNAME', 'datamint pm');
+define('SMTP_USER', 'thedatamint.pm@gmail.com');
+define('SMTP_PASS', 'Sharwari2311');
 
-define('RECIPIENT', 'VALUE_RECIPIENT');
-define('RECIPIENT_REALNAME', 'VALUE_REALNAME_RECIPIENT');
+define('RECIPIENT', 'thedatamint.pm@gmail.com');
+define('RECIPIENT_REALNAME', 'datamint pm');
 
 ?>
