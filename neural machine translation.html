@@ -1244,9 +1244,23 @@ h6:hover .anchor-link {
 <br>
 Neural Machine Translation is the use of Deep Neural Networks for translating a text from one language (source language) to its counterpart in other language (target language).</p>
 <p>In this notebook, we will use sequence to sequence modelling to translation French to English.</p>
-<div>
-    <img src="images/Machine_Translation/translate.jpeg",width="50em">
-</div><h2 id="BIRD'S-EYE-VIEW-OF-THE-BLOG"><em>BIRD'S EYE VIEW OF THE BLOG</em><a class="anchor-link" href="#BIRD'S-EYE-VIEW-OF-THE-BLOG">&#182;</a></h2><ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div width>
+ <img src="images/Machine_Translation/translate1.jpg">
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="BIRD'S-EYE-VIEW-OF-THE-BLOG"><em>BIRD'S EYE VIEW OF THE BLOG</em><a class="anchor-link" href="#BIRD'S-EYE-VIEW-OF-THE-BLOG">&#182;</a></h2><ul>
 <li>Formulate the problem - Sequence to Sequence Approach</li>
 <li>Getting Acquainted with the Dataset</li>
 <li>Preprocessing and Preparing Text Data</li>
@@ -1300,54 +1314,54 @@ The architecture in Fig 4.1 can be applied when the length of the input and outp
 <div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># import important libraries</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># import important libraries</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span>
-<span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">dump</span>
-<span class="kn">from</span> <span class="nn">unicodedata</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">array</span>
+<span class="kn">from</span> <span class="nn">pickle</span> <span class="k">import</span> <span class="n">dump</span>
+<span class="kn">from</span> <span class="nn">unicodedata</span> <span class="k">import</span> <span class="n">normalize</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
 <span class="kn">import</span> <span class="nn">unittest</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="kn">import</span> <span class="nn">zipfile</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">shuffle</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="k">import</span> <span class="n">shuffle</span>
 
-<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="kn">import</span> <span class="n">sent_tokenize</span><span class="p">,</span> <span class="n">word_tokenize</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="k">import</span> <span class="n">sent_tokenize</span><span class="p">,</span> <span class="n">word_tokenize</span>
 
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
 
 <span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="k">import</span> <span class="n">tqdm</span>
 
 <span class="c1"># for preparing text data</span>
-<span class="kn">from</span> <span class="nn">keras.preprocessing.text</span> <span class="kn">import</span> <span class="n">Tokenizer</span>
-<span class="kn">from</span> <span class="nn">keras.preprocessing.sequence</span> <span class="kn">import</span> <span class="n">pad_sequences</span>
-<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="kn">import</span> <span class="n">EarlyStopping</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing.text</span> <span class="k">import</span> <span class="n">Tokenizer</span>
+<span class="kn">from</span> <span class="nn">keras.preprocessing.sequence</span> <span class="k">import</span> <span class="n">pad_sequences</span>
+<span class="kn">from</span> <span class="nn">keras.callbacks</span> <span class="k">import</span> <span class="n">EarlyStopping</span>
 
 <span class="c1"># model-layers</span>
-<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Embedding</span>
-<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">LSTM</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Embedding</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Model</span>
 
 <span class="c1"># plotting the defined model architecture</span>
-<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="kn">import</span> <span class="n">plot_model</span>
+<span class="kn">from</span> <span class="nn">keras.utils</span> <span class="k">import</span> <span class="n">plot_model</span>
 
 <span class="c1"># word-cloud libraries</span>
-<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="kn">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span><span class="p">,</span> <span class="n">ImageColorGenerator</span>
+<span class="kn">from</span> <span class="nn">wordcloud</span> <span class="k">import</span> <span class="n">WordCloud</span><span class="p">,</span> <span class="n">STOPWORDS</span><span class="p">,</span> <span class="n">ImageColorGenerator</span>
 
-<span class="kn">from</span> <span class="nn">nltk.translate.bleu_score</span> <span class="kn">import</span> <span class="n">sentence_bleu</span>
-<span class="kn">from</span> <span class="nn">nltk.translate.bleu_score</span> <span class="kn">import</span> <span class="n">SmoothingFunction</span>
+<span class="kn">from</span> <span class="nn">nltk.translate.bleu_score</span> <span class="k">import</span> <span class="n">sentence_bleu</span>
+<span class="kn">from</span> <span class="nn">nltk.translate.bleu_score</span> <span class="k">import</span> <span class="n">SmoothingFunction</span>
 
 <span class="o">%</span><span class="k">load_ext</span> nb_black
 
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">HTML</span>
 
 <span class="n">display</span><span class="p">(</span>
     <span class="n">HTML</span><span class="p">(</span><span class="s2">&quot;&lt;style&gt;.prompt{width: 0px; min-width: 0px; visibility: collapse}&lt;/style&gt;&quot;</span><span class="p">)</span>
@@ -1394,10 +1408,10 @@ The architecture in Fig 4.1 can be applied when the length of the input and outp
 
 
 
-<div id="936ef55f-dd73-49a0-b058-baad028aeb8a"></div>
+<div id="c515c0cd-f53f-4c10-91bf-a7c7505bbc37"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#936ef55f-dd73-49a0-b058-baad028aeb8a');
+var element = $('#c515c0cd-f53f-4c10-91bf-a7c7505bbc37');
 
             setTimeout(function() {
                 var nbb_cell_id = 1;
@@ -1428,10 +1442,10 @@ var element = $('#936ef55f-dd73-49a0-b058-baad028aeb8a');
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># declare constants needed for training the deep learning model.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># declare constants needed for training the deep learning model.</span>
 
 <span class="c1"># set the following parameter to True to limit the data used through the notebok</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="c1"># number of samples</span>
 <span class="n">NUM_SAMPLES</span> <span class="o">=</span> <span class="mi">20000</span>
 
@@ -1481,10 +1495,10 @@ var element = $('#936ef55f-dd73-49a0-b058-baad028aeb8a');
 
 
 
-<div id="6eb82572-6cc6-4634-a8b7-124e824386ed"></div>
+<div id="84da7957-97d2-469a-b4fc-3adf91974e7a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#6eb82572-6cc6-4634-a8b7-124e824386ed');
+var element = $('#84da7957-97d2-469a-b4fc-3adf91974e7a');
 
             setTimeout(function() {
                 var nbb_cell_id = 2;
@@ -1529,14 +1543,14 @@ Each Dataset is represented in the following format : <strong>English + TAB + Th
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">download_data</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">download_data</span><span class="p">(</span>
     <span class="n">version_name</span><span class="o">=</span><span class="s2">&quot;version1&quot;</span><span class="p">,</span> <span class="n">destination_dir</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;fra-eng&quot;</span><span class="p">)</span>
 <span class="p">):</span>
 
     <span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">,</span> <span class="s2">&quot;fra.txt&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">data_path</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Creating directory tree - {destination_dir}&quot;</span><span class="p">)</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Creating directory tree - </span><span class="si">{destination_dir}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="o">!</span>wget http://www.manythings.org/anki/fra-eng.zip
 
@@ -1545,16 +1559,16 @@ Each Dataset is represented in the following format : <strong>English + TAB + Th
         <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;fra-eng.zip&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">zip</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Extracting the downloaded zip file - {filename} now...&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Extracting the downloaded zip file - </span><span class="si">{filename}</span><span class="s2"> now...&quot;</span><span class="p">)</span>
             <span class="nb">zip</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">destination_dir</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Done ! Downloaded {filename} at {destination_dir}&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Done ! Downloaded </span><span class="si">{filename}</span><span class="s2"> at </span><span class="si">{destination_dir}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Data Available at the right path- {destination_dir}.&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Data Available at the right path- </span><span class="si">{destination_dir}</span><span class="s2">.&quot;</span><span class="p">)</span>
 
     <span class="c1"># create directory to save model weights</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">version_name</span><span class="p">):</span>
-        <span class="n">Path</span><span class="p">(</span><span class="n">version_name</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">version_name</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">data_path</span>
 
@@ -1622,10 +1636,10 @@ fra-eng.zip         100%[===================&gt;]   5.76M  6.08MB/s    in 0.9s
 
 
 
-<div id="90646558-307c-4612-8f2e-886e54085a69"></div>
+<div id="6776e036-d50b-4bec-bb9f-8c45a1ea1424"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#90646558-307c-4612-8f2e-886e54085a69');
+var element = $('#6776e036-d50b-4bec-bb9f-8c45a1ea1424');
 
             setTimeout(function() {
                 var nbb_cell_id = 3;
@@ -1656,16 +1670,16 @@ var element = $('#90646558-307c-4612-8f2e-886e54085a69');
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">raw_texts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">raw_texts</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
     <span class="n">file_path</span><span class="p">,</span>
     <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span>
     <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
-    <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+    <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;comments&quot;</span><span class="p">],</span>
     <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">],</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">raw_texts</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The shape of the data loaded : {raw_texts.shape}&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The shape of the data loaded : </span><span class="si">{raw_texts.shape}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -1757,10 +1771,10 @@ var element = $('#90646558-307c-4612-8f2e-886e54085a69');
 
 
 
-<div id="2f67bbed-3b16-41a2-b8d2-0e1049958dbb"></div>
+<div id="7a907304-1c79-4fa8-8fcb-d8bae1458cb3"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#2f67bbed-3b16-41a2-b8d2-0e1049958dbb');
+var element = $('#7a907304-1c79-4fa8-8fcb-d8bae1458cb3');
 
             setTimeout(function() {
                 var nbb_cell_id = 4;
@@ -1791,7 +1805,7 @@ var element = $('#2f67bbed-3b16-41a2-b8d2-0e1049958dbb');
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">##visualising the French data using word cloud</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">##visualising the French data using word cloud</span>
 
 <span class="n">cloud_text_input</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">raw_texts</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">]))</span>
 <span class="n">cloud_mask_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;images/color1.jpg&quot;</span><span class="p">))</span>
@@ -1881,10 +1895,10 @@ var element = $('#2f67bbed-3b16-41a2-b8d2-0e1049958dbb');
 
 
 
-<div id="07d0df3a-1607-4e7f-9eb5-805f2023bc27"></div>
+<div id="d5a95187-611c-465a-8e7c-c4bcfc44ed28"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#07d0df3a-1607-4e7f-9eb5-805f2023bc27');
+var element = $('#d5a95187-611c-465a-8e7c-c4bcfc44ed28');
 
             setTimeout(function() {
                 var nbb_cell_id = 7;
@@ -1937,7 +1951,7 @@ List of Preprocessing steps performed on each component of Text Data are :</p>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_texts</span><span class="p">(</span><span class="n">raw_text</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_texts</span><span class="p">(</span><span class="n">raw_text</span><span class="p">):</span>
     <span class="n">table</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">.</span><span class="n">punctuation</span><span class="p">)</span>
     <span class="n">re_print</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;[^</span><span class="si">%s</span><span class="s2">]&quot;</span> <span class="o">%</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">printable</span><span class="p">))</span>
     <span class="n">clean_texts</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1982,10 +1996,10 @@ List of Preprocessing steps performed on each component of Text Data are :</p>
 
 
 
-<div id="e5da0b2c-c3c7-4735-a1d7-d3be745c6e00"></div>
+<div id="843a291c-4c74-4d31-b295-b7291be58b17"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e5da0b2c-c3c7-4735-a1d7-d3be745c6e00');
+var element = $('#843a291c-4c74-4d31-b295-b7291be58b17');
 
             setTimeout(function() {
                 var nbb_cell_id = 5;
@@ -2016,18 +2030,18 @@ var element = $('#e5da0b2c-c3c7-4735-a1d7-d3be745c6e00');
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">preprocessed_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">preprocessed_data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;fra-eng&quot;</span><span class="p">,</span> <span class="n">version_name</span><span class="p">,</span> <span class="s2">&quot;preprocessed_fra-eng.csv&quot;</span>
 <span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">preprocessed_data_path</span><span class="p">):</span>
 
     <span class="n">preprocessed_data_dir</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">preprocessed_data_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">Path</span><span class="p">(</span><span class="n">preprocessed_data_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">Path</span><span class="p">(</span><span class="n">preprocessed_data_dir</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">data_texts</span> <span class="o">=</span> <span class="n">raw_texts</span><span class="p">[[</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">preprocess_texts</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Saving Preprocessed Data to {preprocessed_data_path}&quot;</span><span class="p">)</span>
-    <span class="n">data_texts</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">preprocessed_data_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Saving Preprocessed Data to </span><span class="si">{preprocessed_data_path}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">data_texts</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">preprocessed_data_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">n_samples</span><span class="p">:</span>
         <span class="n">data_texts</span> <span class="o">=</span> <span class="n">data_texts</span><span class="p">[:</span><span class="n">NUM_SAMPLES</span><span class="p">]</span>
@@ -2069,10 +2083,10 @@ var element = $('#e5da0b2c-c3c7-4735-a1d7-d3be745c6e00');
 
 
 
-<div id="5a58cde2-6ba2-4cd6-aa3e-fc6836c20bb8"></div>
+<div id="cf7be906-dc58-455f-9fa4-33f2d307ab1f"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#5a58cde2-6ba2-4cd6-aa3e-fc6836c20bb8');
+var element = $('#cf7be906-dc58-455f-9fa4-33f2d307ab1f');
 
             setTimeout(function() {
                 var nbb_cell_id = 6;
@@ -2116,7 +2130,7 @@ var element = $('#5a58cde2-6ba2-4cd6-aa3e-fc6836c20bb8');
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># manipulate data to support Teacher Forcing.</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># manipulate data to support Teacher Forcing.</span>
 
 <span class="n">data_texts</span><span class="p">[</span><span class="s2">&quot;decoder_input&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&lt;sos&gt; &quot;</span> <span class="o">+</span> <span class="n">data_texts</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span>
 <span class="n">data_texts</span><span class="p">[</span><span class="s2">&quot;decoder_target&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_texts</span><span class="p">[</span><span class="s2">&quot;target&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &lt;eos&gt;&quot;</span>
@@ -2214,10 +2228,10 @@ var element = $('#5a58cde2-6ba2-4cd6-aa3e-fc6836c20bb8');
 
 
 
-<div id="cacd1898-3039-4eb4-99c3-e19dccc21a5d"></div>
+<div id="0b5f38b1-acad-4c95-b282-f64bef8c2b5c"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#cacd1898-3039-4eb4-99c3-e19dccc21a5d');
+var element = $('#0b5f38b1-acad-4c95-b282-f64bef8c2b5c');
 
             setTimeout(function() {
                 var nbb_cell_id = 7;
@@ -2255,11 +2269,11 @@ var element = $('#cacd1898-3039-4eb4-99c3-e19dccc21a5d');
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_texts</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_texts</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 <span class="n">data_test_texts</span><span class="p">,</span> <span class="n">data_valid_texts</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">data_test</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Train split has {data_train_texts.shape[0]} records&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Valid split has {data_valid_texts.shape[0]} records&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Test split has {data_test_texts.shape[0]} records&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Train split has </span><span class="si">{data_train_texts.shape[0]}</span><span class="s2"> records&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Valid split has </span><span class="si">{data_valid_texts.shape[0]}</span><span class="s2"> records&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The Data Test split has </span><span class="si">{data_test_texts.shape[0]}</span><span class="s2"> records&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2291,10 +2305,10 @@ The Data Test split has 17721 records
 
 
 
-<div id="0f059568-439b-400d-8da8-9bcceacc6015"></div>
+<div id="926b154a-0a69-4fc1-9ffa-715abd980f52"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#0f059568-439b-400d-8da8-9bcceacc6015');
+var element = $('#926b154a-0a69-4fc1-9ffa-715abd980f52');
 
             setTimeout(function() {
                 var nbb_cell_id = 19;
@@ -2339,7 +2353,7 @@ var element = $('#0f059568-439b-400d-8da8-9bcceacc6015');
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">encoder_tokenizer_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">encoder_tokenizer_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;fra-eng&quot;</span><span class="p">,</span> <span class="n">version_name</span><span class="p">,</span> <span class="s2">&quot;french_tokenizer.pkl&quot;</span>
 <span class="p">)</span>
 <span class="n">decoder_tokenizer_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -2388,10 +2402,10 @@ var element = $('#0f059568-439b-400d-8da8-9bcceacc6015');
 
 
 
-<div id="72f67103-5166-482e-929a-647e57e46998"></div>
+<div id="8cfbd81e-b753-48ae-8d11-3ed3d02c2193"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#72f67103-5166-482e-929a-647e57e46998');
+var element = $('#8cfbd81e-b753-48ae-8d11-3ed3d02c2193');
 
             setTimeout(function() {
                 var nbb_cell_id = 12;
@@ -2429,7 +2443,7 @@ var element = $('#72f67103-5166-482e-929a-647e57e46998');
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># word to index and index to word mapping for encoder</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># word to index and index to word mapping for encoder</span>
 <span class="n">encoder_word2idx</span> <span class="o">=</span> <span class="n">encoder_tokenizer</span><span class="o">.</span><span class="n">word_index</span>
 <span class="n">encoder_idx2word</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">reversed</span><span class="p">,</span> <span class="n">encoder_word2idx</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
 
@@ -2454,10 +2468,10 @@ var element = $('#72f67103-5166-482e-929a-647e57e46998');
 
 
 
-<div id="51e209ca-e50c-4b34-968b-b3a9fb7ed4bc"></div>
+<div id="8711c936-dcda-45b0-bc6b-f5e24b0549d5"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#51e209ca-e50c-4b34-968b-b3a9fb7ed4bc');
+var element = $('#8711c936-dcda-45b0-bc6b-f5e24b0549d5');
 
             setTimeout(function() {
                 var nbb_cell_id = 13;
@@ -2495,11 +2509,11 @@ var element = $('#51e209ca-e50c-4b34-968b-b3a9fb7ed4bc');
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">encoder_num_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoder_word2idx</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The length of the encoder tokenizer dictionary is : {encoder_num_words}&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">encoder_num_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">encoder_word2idx</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The length of the encoder tokenizer dictionary is : </span><span class="si">{encoder_num_words}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="n">decoder_num_words</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">decoder_word2idx</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The length of the encoder tokenizer dictionary is : {decoder_num_words}&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;The length of the encoder tokenizer dictionary is : </span><span class="si">{decoder_num_words}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2530,10 +2544,10 @@ var element = $('#51e209ca-e50c-4b34-968b-b3a9fb7ed4bc');
 
 
 
-<div id="9dd1194b-a68e-4084-9a10-122c955263d2"></div>
+<div id="8255baac-f38d-4e3b-b365-1376f871d6dd"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#9dd1194b-a68e-4084-9a10-122c955263d2');
+var element = $('#8255baac-f38d-4e3b-b365-1376f871d6dd');
 
             setTimeout(function() {
                 var nbb_cell_id = 14;
@@ -2572,7 +2586,7 @@ var element = $('#9dd1194b-a68e-4084-9a10-122c955263d2');
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">max_length</span><span class="p">(</span><span class="n">desc1</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">max_length</span><span class="p">(</span><span class="n">desc1</span><span class="p">):</span>
     <span class="n">length</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">sentence</span> <span class="ow">in</span> <span class="n">desc1</span><span class="p">:</span>
         <span class="n">length</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word_tokenize</span><span class="p">(</span><span class="n">sentence</span><span class="p">)))</span>
@@ -2595,10 +2609,10 @@ var element = $('#9dd1194b-a68e-4084-9a10-122c955263d2');
 
 
 
-<div id="a3af4e4c-d18b-46a5-ade9-5e3159492a9a"></div>
+<div id="8929186c-1014-4361-89d6-f618e4fd5af1"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a3af4e4c-d18b-46a5-ade9-5e3159492a9a');
+var element = $('#8929186c-1014-4361-89d6-f618e4fd5af1');
 
             setTimeout(function() {
                 var nbb_cell_id = 15;
@@ -2629,7 +2643,7 @@ var element = $('#a3af4e4c-d18b-46a5-ade9-5e3159492a9a');
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">encoder_max_length_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">encoder_max_length_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
     <span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;fra-eng&quot;</span><span class="p">,</span> <span class="n">version_name</span><span class="p">,</span> <span class="s2">&quot;french_max_len.pkl&quot;</span>
 <span class="p">)</span>
 <span class="n">decoder_max_length_pickle_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -2643,11 +2657,11 @@ var element = $('#a3af4e4c-d18b-46a5-ade9-5e3159492a9a');
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">encoder_max_length_pickle_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">encoder_max_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Encoder max length saved at {encoder_max_length_pickle_path}&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Encoder max length saved at </span><span class="si">{encoder_max_length_pickle_path}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">decoder_max_length_pickle_path</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
         <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">decoder_max_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Decoder max length saved at {decoder_max_length_pickle_path}&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Decoder max length saved at </span><span class="si">{decoder_max_length_pickle_path}</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="k">else</span><span class="p">:</span>
 
@@ -2657,8 +2671,8 @@ var element = $('#a3af4e4c-d18b-46a5-ade9-5e3159492a9a');
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">decoder_max_length_pickle_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
         <span class="n">decoder_max_len</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Maximum Encoder seq length is {encoder_max_len}&quot;</span><span class="p">)</span>
-<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Maximum decoder Seq length is {decoder_max_len}&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Maximum Encoder seq length is </span><span class="si">{encoder_max_len}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Maximum decoder Seq length is </span><span class="si">{decoder_max_len}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -2691,10 +2705,10 @@ var element = $('#a3af4e4c-d18b-46a5-ade9-5e3159492a9a');
 
 
 
-<div id="a8126d37-bc06-407e-a427-4f809fec1410"></div>
+<div id="750f1eee-3f8f-4529-8546-7d00689d5a65"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
+var element = $('#750f1eee-3f8f-4529-8546-7d00689d5a65');
 
             setTimeout(function() {
                 var nbb_cell_id = 16;
@@ -2732,11 +2746,11 @@ var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">load_train_batches</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">load_train_batches</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">):</span>
 
     <span class="n">index_tracker</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
         <span class="c1"># retrieve the batch of input texts</span>
         <span class="n">input_train_text</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">])[</span>
@@ -2776,7 +2790,7 @@ var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
         <span class="n">index_tracker</span> <span class="o">+=</span> <span class="n">chunk_size</span>
         <span class="k">if</span> <span class="n">index_tracker</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">):</span>
             <span class="n">index_tracker</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">data_train_texts</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">data_train_texts</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">yield</span> <span class="p">[</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">],</span> <span class="n">decoder_targets_one_hot</span>
 
@@ -2784,7 +2798,7 @@ var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
 <span class="k">def</span> <span class="nf">load_valid_batches</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">):</span>
     <span class="n">valid_index_tracker</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
 
         <span class="c1"># retrieve the batch of input texts</span>
         <span class="n">input_valid_text</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">[</span><span class="s2">&quot;input&quot;</span><span class="p">])[</span>
@@ -2825,7 +2839,7 @@ var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
 
         <span class="k">if</span> <span class="n">valid_index_tracker</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">):</span>
             <span class="n">valid_index_tracker</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">data_valid_texts</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">data_valid_texts</span> <span class="o">=</span> <span class="n">shuffle</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="k">yield</span> <span class="p">[</span><span class="n">valid_x</span><span class="p">,</span> <span class="n">valid_y</span><span class="p">],</span> <span class="n">decoder_targets_one_hot_valid</span>
 </pre></div>
@@ -2846,10 +2860,10 @@ var element = $('#a8126d37-bc06-407e-a427-4f809fec1410');
 
 
 
-<div id="d4ec2cd1-aa27-4c59-8975-306ad8bd1563"></div>
+<div id="87dc2dca-eca9-430e-9341-79b5221ddf63"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#d4ec2cd1-aa27-4c59-8975-306ad8bd1563');
+var element = $('#87dc2dca-eca9-430e-9341-79b5221ddf63');
 
             setTimeout(function() {
                 var nbb_cell_id = 20;
@@ -2880,7 +2894,7 @@ var element = $('#d4ec2cd1-aa27-4c59-8975-306ad8bd1563');
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">train_gen</span> <span class="o">=</span> <span class="n">load_train_batches</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_gen</span> <span class="o">=</span> <span class="n">load_train_batches</span><span class="p">(</span><span class="n">data_train_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
 <span class="n">valid_gen</span> <span class="o">=</span> <span class="n">load_valid_batches</span><span class="p">(</span><span class="n">data_valid_texts</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">BATCH_SIZE</span><span class="p">)</span>
 </pre></div>
 
@@ -2900,10 +2914,10 @@ var element = $('#d4ec2cd1-aa27-4c59-8975-306ad8bd1563');
 
 
 
-<div id="81434b1b-865c-4ffe-81ae-368effc6c8b9"></div>
+<div id="8b446f39-dc74-4db4-bfd0-1e38596925bc"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#81434b1b-865c-4ffe-81ae-368effc6c8b9');
+var element = $('#8b446f39-dc74-4db4-bfd0-1e38596925bc');
 
             setTimeout(function() {
                 var nbb_cell_id = 21;
@@ -2979,14 +2993,14 @@ var element = $('#81434b1b-865c-4ffe-81ae-368effc6c8b9');
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># ENCODER</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ENCODER</span>
 <span class="n">input_len</span> <span class="o">=</span> <span class="p">(</span><span class="n">encoder_max_len</span><span class="p">,)</span>
 <span class="n">encoder_input_layer</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="n">input_len</span><span class="p">)</span>
 <span class="c1"># pass the input to emedding layer</span>
 <span class="n">encoder_embedding_layer</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">encoder_num_words</span><span class="p">,</span> <span class="n">LATENT_DIM</span><span class="p">)</span>
 <span class="n">encoder_embedding</span> <span class="o">=</span> <span class="n">encoder_embedding_layer</span><span class="p">(</span><span class="n">encoder_input_layer</span><span class="p">)</span>
 <span class="c1"># Create a LSTM encoder and pass the input embeddings to it</span>
-<span class="n">encoder_lstm</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">encoder_lstm</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">state_h</span><span class="p">,</span> <span class="n">state_c</span> <span class="o">=</span> <span class="n">encoder_lstm</span><span class="p">(</span><span class="n">encoder_embedding</span><span class="p">)</span>
 <span class="c1"># save the hidden states of the encoder</span>
 <span class="n">encoder_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">state_h</span><span class="p">,</span> <span class="n">state_c</span><span class="p">]</span>
@@ -2999,7 +3013,7 @@ var element = $('#81434b1b-865c-4ffe-81ae-368effc6c8b9');
 <span class="n">decoder_embedding</span> <span class="o">=</span> <span class="n">decoder_embedding_layer</span><span class="p">(</span><span class="n">decoder_input_layer</span><span class="p">)</span>
 <span class="c1"># Create a LSTM encoder and pass the input embeddings to it</span>
 <span class="c1"># return states in the training model, but we will use them in inference.</span>
-<span class="n">decoder_lstm</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">decoder_lstm</span> <span class="o">=</span> <span class="n">LSTM</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,</span> <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_state</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">decoder_lstm</span><span class="p">(</span><span class="n">decoder_embedding</span><span class="p">,</span> <span class="n">initial_state</span><span class="o">=</span><span class="n">encoder_states</span><span class="p">)</span>
 
 
@@ -3023,10 +3037,10 @@ var element = $('#81434b1b-865c-4ffe-81ae-368effc6c8b9');
 
 
 
-<div id="322596da-b9c3-44b8-bab4-5a55df74e8a6"></div>
+<div id="d619a6b9-84b8-4a17-a9cc-3814e8403e18"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#322596da-b9c3-44b8-bab4-5a55df74e8a6');
+var element = $('#d619a6b9-84b8-4a17-a9cc-3814e8403e18');
 
             setTimeout(function() {
                 var nbb_cell_id = 30;
@@ -3057,7 +3071,7 @@ var element = $('#322596da-b9c3-44b8-bab4-5a55df74e8a6');
 <div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">([</span><span class="n">encoder_input_layer</span><span class="p">,</span> <span class="n">decoder_input_layer</span><span class="p">],</span> <span class="n">decoder_outputs</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">([</span><span class="n">encoder_input_layer</span><span class="p">,</span> <span class="n">decoder_input_layer</span><span class="p">],</span> <span class="n">decoder_outputs</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3076,10 +3090,10 @@ var element = $('#322596da-b9c3-44b8-bab4-5a55df74e8a6');
 
 
 
-<div id="6dec6d1b-2fad-4f43-9c0f-daeefdadcd77"></div>
+<div id="253a1301-8730-4136-9076-6d746fbe5e9a"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#6dec6d1b-2fad-4f43-9c0f-daeefdadcd77');
+var element = $('#253a1301-8730-4136-9076-6d746fbe5e9a');
 
             setTimeout(function() {
                 var nbb_cell_id = 31;
@@ -3110,7 +3124,7 @@ var element = $('#6dec6d1b-2fad-4f43-9c0f-daeefdadcd77');
 <div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plot_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">show_shapes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3144,10 +3158,10 @@ var element = $('#6dec6d1b-2fad-4f43-9c0f-daeefdadcd77');
 
 
 
-<div id="e9e64f9a-07fe-442b-bac8-74a882ae3825"></div>
+<div id="6f2e0c18-18e7-4034-87dc-0cf72f4ef94b"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e9e64f9a-07fe-442b-bac8-74a882ae3825');
+var element = $('#6f2e0c18-18e7-4034-87dc-0cf72f4ef94b');
 
             setTimeout(function() {
                 var nbb_cell_id = 32;
@@ -3178,7 +3192,7 @@ var element = $('#e9e64f9a-07fe-442b-bac8-74a882ae3825');
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Compile the deep learning model</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Compile the deep learning model</span>
 <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
     <span class="n">optimizer</span><span class="o">=</span><span class="s2">&quot;rmsprop&quot;</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s2">&quot;categorical_crossentropy&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
 <span class="p">)</span>
@@ -3200,10 +3214,10 @@ var element = $('#e9e64f9a-07fe-442b-bac8-74a882ae3825');
 
 
 
-<div id="281e28de-c060-4fcf-93a2-a0c7cb14ebbc"></div>
+<div id="8af2f311-b145-477f-81cd-b5648a03af25"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#281e28de-c060-4fcf-93a2-a0c7cb14ebbc');
+var element = $('#8af2f311-b145-477f-81cd-b5648a03af25');
 
             setTimeout(function() {
                 var nbb_cell_id = 23;
@@ -3234,7 +3248,7 @@ var element = $('#281e28de-c060-4fcf-93a2-a0c7cb14ebbc');
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;modelv1_loss0.32.h5&quot;</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;modelv1_loss0.32.h5&quot;</span><span class="p">):</span>
     <span class="n">model</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="s2">&quot;modelv1_loss0.32.h5&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     
@@ -3345,7 +3359,7 @@ Epoch 00011: early stopping
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">encoder_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">encoder_input_layer</span><span class="p">,</span> <span class="n">encoder_states</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">encoder_model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">encoder_input_layer</span><span class="p">,</span> <span class="n">encoder_states</span><span class="p">)</span>
 
 <span class="n">state_input_h</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,))</span>
 <span class="n">state_input_c</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">LATENT_DIM</span><span class="p">,))</span>
@@ -3384,10 +3398,10 @@ Epoch 00011: early stopping
 
 
 
-<div id="60462cde-2c7f-403e-a795-8e2ae6c1da10"></div>
+<div id="b77d445d-72fa-49e0-b2f2-d8b3536b446e"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#60462cde-2c7f-403e-a795-8e2ae6c1da10');
+var element = $('#b77d445d-72fa-49e0-b2f2-d8b3536b446e');
 
             setTimeout(function() {
                 var nbb_cell_id = 24;
@@ -3418,7 +3432,7 @@ var element = $('#60462cde-2c7f-403e-a795-8e2ae6c1da10');
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">decode_sequence1</span><span class="p">(</span><span class="n">test_sen</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">decode_sequence1</span><span class="p">(</span><span class="n">test_sen</span><span class="p">):</span>
     <span class="c1"># Encode the input as state vectors.</span>
     <span class="n">states_value</span> <span class="o">=</span> <span class="n">encoder_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_sen</span><span class="p">)</span>
 
@@ -3460,7 +3474,7 @@ var element = $('#60462cde-2c7f-403e-a795-8e2ae6c1da10');
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_test_data</span><span class="p">(</span><span class="n">data_test_texts</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">evaluate_test_data</span><span class="p">(</span><span class="n">data_test_texts</span><span class="p">):</span>
 
     <span class="n">predicted_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Input_Sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;Target_Sentence&quot;</span><span class="p">,</span> <span class="s2">&quot;Predicted_Sentence&quot;</span><span class="p">]</span>
@@ -3497,7 +3511,7 @@ var element = $('#60462cde-2c7f-403e-a795-8e2ae6c1da10');
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 
     </div>
@@ -3669,10 +3683,10 @@ var element = $('#60462cde-2c7f-403e-a795-8e2ae6c1da10');
 
 
 
-<div id="27392b99-02b7-42b5-95b0-222747b710d8"></div>
+<div id="0dcebda4-2de1-4fe1-b37d-2785d5ecceb1"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#27392b99-02b7-42b5-95b0-222747b710d8');
+var element = $('#0dcebda4-2de1-4fe1-b37d-2785d5ecceb1');
 
             setTimeout(function() {
                 var nbb_cell_id = 36;
@@ -3723,7 +3737,7 @@ $$
 <div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">calculate_sent_bleu</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calculate_sent_bleu</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">):</span>
     
     <span class="c1"># initialize lists for tracking bleu scores</span>
     <span class="n">bleu_1</span><span class="p">,</span> <span class="n">bleu_2</span><span class="p">,</span> <span class="n">bleu_3</span><span class="p">,</span> <span class="n">bleu_4</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">()]</span> <span class="o">*</span> <span class="mi">4</span>
@@ -3753,7 +3767,7 @@ $$
 <div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">result_try</span><span class="o">=</span><span class="n">calculate_sent_bleu</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">result_try</span><span class="o">=</span><span class="n">calculate_sent_bleu</span><span class="p">(</span><span class="n">predicted_results</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -3766,10 +3780,10 @@ $$
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;BlEU-1 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;BlEU-2 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;BlEU-3 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;BlEU-4 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_4&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BlEU-1 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_1&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BlEU-2 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BlEU-3 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BlEU-4 :  &quot;</span><span class="p">,</span> <span class="n">result_try</span><span class="p">[</span><span class="s2">&quot;Bleu_4&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -3802,10 +3816,10 @@ BlEU-4 :   0.47073541733215074
 
 
 
-<div id="56dec0a1-12d2-49f5-9393-285b7216f60f"></div>
+<div id="86170719-134f-40b0-9f1d-0f271898b130"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#56dec0a1-12d2-49f5-9393-285b7216f60f');
+var element = $('#86170719-134f-40b0-9f1d-0f271898b130');
 
             setTimeout(function() {
                 var nbb_cell_id = 22;
@@ -3836,7 +3850,7 @@ var element = $('#56dec0a1-12d2-49f5-9393-285b7216f60f');
 <div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># predicted_results.to_csv(&quot;./data/fra-eng/version1/modelv1_results.csv&quot;)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># predicted_results.to_csv(&quot;./data/fra-eng/version1/modelv1_results.csv&quot;)</span>
 </pre></div>
 
     </div>
